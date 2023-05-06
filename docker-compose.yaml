@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  gamesmarketapi:
+    image: gamesmarketapi:1.1
+    ports:
+      - "7025:80"
+    networks:
+      - games-market-network
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'gamesmarket'
+      MYSQL_USER: 'docker'
+      MYSQL_PASSWORD: 'docker'
+      MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    networks:
+      - games-market-network
+    volumes:
+      - my-db:/var/lib/mysql
+
+networks: 
+    games-market-network:
+        driver: bridge
+
+volumes:
+  my-db:
