@@ -1,5 +1,4 @@
-
-namespace GamesMarketApi.Dtos.Game
+namespace GamesMarketApi.Dtos
 {
     public class GameReadDto
     {
@@ -8,5 +7,6 @@ namespace GamesMarketApi.Dtos.Game
         public string Company { get; set; }
         public string Category { get; set; }
         public string ReleaseDate { get; set; }
+        public string Version { get; set; }
     }
 }

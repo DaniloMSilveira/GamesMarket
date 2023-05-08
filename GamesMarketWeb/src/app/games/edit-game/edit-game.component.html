@@ -1,0 +1,6 @@
+<h2>Edit Game</h2>
+
+<app-form-game *ngIf="model" [model]="model" 
+(onSaveChanges)="saveChanges($event)"></app-form-game>
+
+<mat-spinner *ngIf="!model"></mat-spinner>

@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
-using GamesMarketApi.Dtos.Game;
-using GamesMarketApi.Models;
+using GamesMarketApi.Dtos;
+using GamesMarketApi.Entities;
 using GamesMarketApi.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -26,11 +28,11 @@ public class GameController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<GameReadDto>> GetGames()
+    public async Task<ActionResult<IEnumerable<GameReadDto>>> GetGames([FromQuery] PaginationDto paginationDto)
     {
         try
         {
-            var games = _repository.GetAll();
+            var games = await _repository.GetAll();
 
             return Ok(_mapper.Map<IEnumerable<GameReadDto>>(games));
         }
@@ -42,18 +44,18 @@ public class GameController : ControllerBase
     }
 
     [HttpGet("{id}", Name = "GetGameById")]
-    public ActionResult<GameReadDto> GetGameById(int id)
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
+    public async Task<ActionResult<GameReadDto>> GetGameById(int id)
     {
         try 
         { 
-            var game = _repository.GetById(id);
+            var game = await _repository.GetById(id);
             if (game == null)
             {
                 return NotFound();
             }
 
-            var gameReadDto = _mapper.Map<GameReadDto>(game);
-            return Ok(gameReadDto);
+            return Ok(_mapper.Map<GameReadDto>(game));
         }
         catch (Exception error)
         {
@@ -63,14 +65,13 @@ public class GameController : ControllerBase
     }
 
     [HttpPost]
-    public ActionResult<GameReadDto> CreateGame([FromBody] GameCreateDto gameCreateDto)
+    public async Task<ActionResult<GameReadDto>> CreateGame([FromBody] GameCreateDto gameCreateDto)
     {
         try
         {
             var game = _mapper.Map<Game>(gameCreateDto);
 
-            _repository.Create(game);
-            _repository.SaveChanges();
+            await _repository.CreateAsync(game);
 
             return Ok(_mapper.Map<GameReadDto>(game));
         }
@@ -79,5 +80,35 @@ public class GameController : ControllerBase
             _logger.LogError(error.Message);
             return Problem(error.Message);
         }
+    }
+
+    [HttpPut("{id:int}")]
+    public async Task<ActionResult<GameReadDto>> UpdateGame(int id, [FromBody] GameCreateDto gameCreateDto)
+    {
+        var game = await _repository.GetById(id);
+
+        if (game == null)
+        {
+            return NotFound();
+        }
+
+        game = _mapper.Map(gameCreateDto, game);
+
+        await _repository.UpdateAsync(game);
+        return Ok(_mapper.Map<GameReadDto>(game));
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> RemoveGame(int id)
+    {
+        var game = await _repository.GetById(id);
+
+        if (game == null)
+        {
+            return NotFound();
+        }
+
+        await _repository.RemoveAsync(game);
+        return NoContent();
     }
 }

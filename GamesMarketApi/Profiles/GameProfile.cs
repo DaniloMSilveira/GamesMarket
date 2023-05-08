@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using GamesMarketApi.Dtos.Game;
-using GamesMarketApi.Models;
+using GamesMarketApi.Dtos;
+using GamesMarketApi.Entities;
 
 namespace GamesMarketApi.Profiles
 {

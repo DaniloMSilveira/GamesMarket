@@ -1,5 +1,9 @@
-﻿using GamesMarketApi.Data;
-using GamesMarketApi.Models;
+﻿using AutoMapper;
+using GamesMarketApi.Data;
+using GamesMarketApi.Dtos;
+using GamesMarketApi.Entities;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace GamesMarketApi.Repositories
@@ -13,29 +17,46 @@ namespace GamesMarketApi.Repositories
             _context = context;
         }
 
-        public void SaveChanges()
+        public async Task<IEnumerable<Game>> GetByPagination(PaginationDto paginationDto)
         {
-            _context.SaveChanges();
+            return await _context.Games.ToListAsync();
+        }
+        public async Task<IEnumerable<Game>> GetAll()
+        {
+            return await _context.Games.ToListAsync();
         }
 
-        public IEnumerable<Game> GetAll()
+        public async Task<Game> GetById(int id)
         {
-            return _context.Games.ToList();
+            return await _context.Games.FirstOrDefaultAsync(item => item.Id == id);
         }
 
-        public Game GetById(int id)
-        {
-            return _context.Games.FirstOrDefault(item => item.Id == id);
-        }
-
-        public void Create(Game game)
+        public async Task CreateAsync(Game game)
         {
             if (game == null)
             {
                 throw new ArgumentNullException(nameof(game));
             }
 
-            _context.Games.Add(game);
+            await _context.Games.AddAsync(game);
+            await _context.SaveChangesAsync();
+        }
+
+        public Task RemoveAsync(Game game)
+        {
+            _context.Games.Remove(game);
+            return _context.SaveChangesAsync();
+        }
+
+        public Task UpdateAsync(Game game)
+        {
+            if (game == null)
+            {
+                throw new ArgumentNullException(nameof(game));
+            }
+
+            _context.Games.Update(game);
+            return _context.SaveChangesAsync();
         }
     }
 }

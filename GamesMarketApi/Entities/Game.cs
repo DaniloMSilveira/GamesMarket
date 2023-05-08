@@ -1,14 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using GamesMarketApi.Enums;
 
-namespace GamesMarketApi.Models
+namespace GamesMarketApi.Entities
 {
-    public class Game
+    public class Game : BaseEntity
     {
-        [Key]
-        [Required]
-        public int Id { get; set; }
-
         [Required]
         public string Name { get; set; }
 
@@ -20,5 +16,7 @@ namespace GamesMarketApi.Models
 
         [Required]
         public DateTime ReleaseDate { get; set; }
+
+        public string? Version { get; set; }
     }
 }
