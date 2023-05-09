@@ -1,4 +1,11 @@
 export interface userCredentials{
+    login: string;
+    password: string;
+}
+
+export type UserCreateDTO = {
+    UserName: string;
+    name: string;
     email: string;
     password: string;
 }

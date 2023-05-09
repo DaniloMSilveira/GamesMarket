@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { authenticationResponse, userCredentials, userDTO } from './security.models';
+import { authenticationResponse, UserCreateDTO, userCredentials, userDTO } from './security.models';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ export class SecurityService {
 
   constructor(private http: HttpClient) { }
 
-  private apiURL = environment.apiURL + "/accounts";
+  private apiURL = environment.apiURL + "/user";
   private readonly tokenKey: string = 'token';
   private readonly expirationTokenKey: string = 'token-expiration'
   private readonly roleField = "role";
@@ -68,7 +68,13 @@ export class SecurityService {
   }
 
   register(userCredentials: userCredentials): Observable<authenticationResponse>{
-    return this.http.post<authenticationResponse>(this.apiURL + "/create", userCredentials);
+    const userCreateDTO: UserCreateDTO = {
+      UserName: userCredentials.login,
+      password: userCredentials.password,
+      name: 'mock',
+      email: 'mock@gmail.com'
+    }
+    return this.http.post<authenticationResponse>(this.apiURL + "/create", userCreateDTO);
   }
 
   login(userCredentials: userCredentials): Observable<authenticationResponse>{

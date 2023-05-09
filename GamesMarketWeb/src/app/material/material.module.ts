@@ -42,4 +42,4 @@ import { MatChipsModule } from '@angular/material/chips'
     CommonModule
   ]
 })
-export class AppMaterialModule { }
+export class MaterialModule { }

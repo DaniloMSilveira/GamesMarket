@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { parseWebAPIErrors } from 'src/app/utilities/utils';
+import { parseWebAPIErrors } from 'src/app/shared/utils';
 import { userCredentials } from '../security.models';
 import { SecurityService } from '../security.service';
 

@@ -10,6 +10,15 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(
+    opt =>
+    {
+        opt.AddDefaultPolicy(policy =>
+        {
+            policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+        });
+    });
+
 // Add services to the container.
 
 builder.Services.AddControllers(options =>
@@ -56,6 +65,7 @@ builder.Services.AddAuthorization(
     });
 
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -66,6 +76,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCors();
 
 app.UseAuthentication();
 

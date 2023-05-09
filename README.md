@@ -21,9 +21,9 @@ docker-compose up -d
 - [ ] Criar pub/sub com o RabbitMQ e um novo projeto com subscribers
 
 # Lista de TODOS para fazer (frontend):
-- [ ] Resolver problemas de build, reloading e lentidão ambiente de desenvolvimento (wsl2)
-- [ ] Resolver todos conflitos do tslint com as tipagens corretas
-- [ ] Terminar as telas de autenticação e atualização das roles com integração do identity
+- [X] Corrigir problemas ambiente desenvolvimento
+- [X] Implementar registro e login
+- [ ] Aprimorar registro do usuário e criar pagina de administração de acessos
 - [ ] Terminar pagina de home, menu lateral e demais telas
 - [ ] Mudar form de crud para não ficar mudando a tela ao criar/editar
 - [ ] Implementar boas praticas de frontend como cache e socket
