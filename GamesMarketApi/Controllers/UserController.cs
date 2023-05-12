@@ -84,15 +84,22 @@ namespace GamesMarketApi.Controllers
 
         private async Task<AuthenticationResponseDto> BuildToken(UserCredentialsDto userCredentials)
         {
+            var claims = new List<Claim>()
+            {
+                new Claim("userName", userCredentials.UserName)
+            };
+
             var user = await userManager.FindByNameAsync(userCredentials.UserName);
             var claimsDB = await userManager.GetClaimsAsync(user);
+
+            claims.AddRange(claimsDB);
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JwtKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var expiration = DateTime.UtcNow.AddYears(1);
 
-            var token = new JwtSecurityToken(issuer: null, audience: null, claims: claimsDB,
+            var token = new JwtSecurityToken(issuer: null, audience: null, claims: claims,
                 expires: expiration, signingCredentials: creds);
 
             return new AuthenticationResponseDto()

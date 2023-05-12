@@ -7,7 +7,7 @@ import { SecurityService } from '../security/security.service';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanActivate {
+export class ActiveGuard implements CanActivate {
   constructor(private securityService: SecurityService, private router: Router) {
 
   }
@@ -16,7 +16,7 @@ export class AdminGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.securityService.getRole() === 'admin'){
+    if (this.securityService.isAuthenticated()){
       return true;
     }
 

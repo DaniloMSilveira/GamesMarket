@@ -1,8 +1,8 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
-import { userDTO } from '../security.models';
-import { SecurityService } from '../security.service';
+import { userDTO } from '../../security/security.models';
+import { SecurityService } from '../../security/security.service';
 
 @Component({
   selector: 'app-users-index',

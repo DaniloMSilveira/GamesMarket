@@ -5,30 +5,20 @@
       </a>
     </span>
   
-    <app-authorize-view [role]="'admin'">
+    <app-authorize-view role="admin">
       <ng-container authorized>
         <div>
           <a mat-button routerLink="games"> Games </a>
         </div>
-  
-        <div>
-          <a mat-button routerLink="users"> Users </a>
-        </div>
       </ng-container>
     </app-authorize-view>
   
-    <div class="space">
-  
-    </div>
+    <div class="space"></div>
   
     <app-authorize-view>
       <ng-container authorized>
-        <span>Hello, {{securityService.getFieldFromJWT('email')}}</span>
-        <a mat-button (click)="securityService.logout()">Logout</a>
-      </ng-container>
-      <ng-container notAuthorized>
-        <a mat-button routerLink="login">Login</a>
-        <a mat-button routerLink="register">Register</a>
+        <span>Hello, {{user}}</span>
+        <a mat-button (click)="logout()">Logout</a>
       </ng-container>
     </app-authorize-view>
   

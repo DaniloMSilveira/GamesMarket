@@ -12,11 +12,11 @@ import { MaterialModule } from './material/material.module';
 
 // Security
 import { JwtInterceptorService } from './security/jwt-interceptor.service';
-import { AuthorizeViewComponent } from './security/authorize-view/authorize-view.component';
-import { LoginComponent } from './security/login/login.component';
-import { RegisterComponent } from './security/register/register.component';
-import { AuthenticationFormComponent } from './security/authentication-form/authentication-form.component';
-import { UsersIndexComponent } from './security/users-index/users-index.component';
+import { AuthorizeViewComponent } from './security/components/authorize-view/authorize-view.component';
+import { LoginComponent } from './security/components/login/login.component';
+import { RegisterComponent } from './security/components/register/register.component';
+import { AuthenticationFormComponent } from './security/components/authentication-form/authentication-form.component';
+import { UsersIndexComponent } from './admin/users-index/users-index.component';
 
 // Shared
 import { GenericListComponent } from './shared/components/generic-list/generic-list.component';

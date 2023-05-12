@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { parseWebAPIErrors } from 'src/app/shared/utils';
-import { userCredentials } from '../security.models';
-import { SecurityService } from '../security.service';
+import { UserCredentials } from '../../security.models';
+import { SecurityService } from '../../security.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -12,19 +13,30 @@ import { SecurityService } from '../security.service';
 export class LoginComponent implements OnInit {
   constructor(
     private securityService: SecurityService,
+    private formBuilder: FormBuilder,
     private router: Router
   ) {}
 
+  form: FormGroup;
   errors: string[] = [];
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      userName: ['', {
+        validators: [Validators.required]
+      }],
+      password: ['', {
+        validators: [Validators.required]
+      }]
+    });
+  }
 
-  login(userCredentials: userCredentials) {
+  login(userCredentials: UserCredentials) {
     this.securityService
       .login(userCredentials)
       .subscribe((authenticationResponse) => {
         this.securityService.saveToken(authenticationResponse);
-        this.router.navigate(['/']);
+        this.router.navigate(['/home']);
       }, error => this.errors = parseWebAPIErrors(error));
   }
 }

@@ -23,7 +23,8 @@ docker-compose up -d
 # Lista de TODOS para fazer (frontend):
 - [X] Corrigir problemas ambiente desenvolvimento
 - [X] Implementar registro e login
-- [ ] Aprimorar registro do usuário e criar pagina de administração de acessos
+- [X] Aprimorar registro do usuário 
+- [ ] Criar pagina de administração de acessos
 - [ ] Terminar pagina de home, menu lateral e demais telas
 - [ ] Mudar form de crud para não ficar mudando a tela ao criar/editar
 - [ ] Implementar boas praticas de frontend como cache e socket

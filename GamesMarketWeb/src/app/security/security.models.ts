@@ -1,12 +1,12 @@
-export interface userCredentials{
-    login: string;
+export interface UserCredentials{
+    userName: string;
     password: string;
 }
 
 export type UserCreateDTO = {
-    UserName: string;
     name: string;
     email: string;
+    userName: string;
     password: string;
 }
 

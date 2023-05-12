@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SecurityService } from '../security/security.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -8,9 +9,20 @@ import { SecurityService } from '../security/security.service';
 })
 export class MenuComponent implements OnInit {
 
-  constructor(public securityService: SecurityService) { }
+  constructor(
+    private securityService: SecurityService,
+    private router: Router
+  ) { }
+
+  user: string
 
   ngOnInit(): void {
+    this.user = this.securityService.getFieldFromJWT('userName')
+  }
+
+  logout(): void {
+    this.securityService.logout();
+    this.router.navigate(['/auth/login'])
   }
 
 }
