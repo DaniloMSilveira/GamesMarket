@@ -16,7 +16,7 @@ export class EditGameComponent implements OnInit {
 
   model: Game;
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(params => {
+    this.activatedRoute.params.subscribe((params: Game) => {
       this.service.getById(params.id).subscribe(game => this.model = game);
     });
   }

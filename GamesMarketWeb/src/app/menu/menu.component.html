@@ -14,13 +14,33 @@
     </app-authorize-view>
   
     <div class="space"></div>
+
+    <div class="cabecalho__icones__item">
+      <a routerLink="" mat-button>
+        <mat-icon>shopping_cart</mat-icon>
+      </a>
+      <a routerLink="" mat-button>
+        <mat-icon>notifications</mat-icon>
+      </a>
+      
+      <button class="r-full" mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>account_circle</mat-icon>
+      </button>
+      
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>logout</span>
+        </button>
+      </mat-menu>
+
+    </div>
   
-    <app-authorize-view>
+    <!-- <app-authorize-view>
       <ng-container authorized>
         <span>Hello, {{user}}</span>
         <a mat-button (click)="logout()">Logout</a>
       </ng-container>
-    </app-authorize-view>
+    </app-authorize-view> -->
   
-  </mat-toolbar>
-  
+</mat-toolbar>

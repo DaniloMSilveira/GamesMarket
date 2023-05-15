@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { parseWebAPIErrors } from 'src/app/shared/utils';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
+
 import { UserCredentials } from '../../security.models';
 import { SecurityService } from '../../security.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-login',
@@ -12,6 +14,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   constructor(
+    private toastr: ToastrService,
     private securityService: SecurityService,
     private formBuilder: FormBuilder,
     private router: Router
@@ -34,9 +37,19 @@ export class LoginComponent implements OnInit {
   login(userCredentials: UserCredentials) {
     this.securityService
       .login(userCredentials)
-      .subscribe((authenticationResponse) => {
-        this.securityService.saveToken(authenticationResponse);
-        this.router.navigate(['/home']);
-      }, error => this.errors = parseWebAPIErrors(error));
+      .subscribe({
+        next: (authenticationResponse) => {
+          this.securityService.saveToken(authenticationResponse);
+          this.router.navigate(['/home']);
+        },
+        error: (e) => this.toastr.error(
+          e.message || 'Internal error', 
+          'Error on authentication', 
+          {
+            closeButton: true,
+            progressBar: true,
+          }
+        )
+      })
   }
 }

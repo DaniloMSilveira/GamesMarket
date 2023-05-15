@@ -2,10 +2,27 @@ form {
     max-width: 500px;
 }
 
-mat-form-field{
+mat-card-header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+mat-card-title {
+    font-size: 20px;
+}
+
+mat-card-content {
+  display: flex;
+  justify-content: center;
+}
+
+mat-form-field {
     width: 100%;
+    min-width: 300px;
 }
 
 button {
-    margin-right: 1rem;
+    margin-top: 10px;
+    width: 100%;
 }

@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { ToastrModule } from 'ngx-toastr';
 
 // App
 import { AppComponent } from './app.component';
@@ -58,7 +59,8 @@ import { IndexGamesComponent } from './games/index-games/index-games.component';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    ToastrModule.forRoot()
   ],
   providers: [
     {

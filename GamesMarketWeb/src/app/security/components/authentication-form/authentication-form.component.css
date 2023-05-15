@@ -1,2 +1,14 @@
-
+.container-background {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100%;
+    padding: 16px;
+    background-image: url("../../../../assets/wallpaper.jpg");
+    /* filter: brightness(0.25) opacity(0.90); */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
   
