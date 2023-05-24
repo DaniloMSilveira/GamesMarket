@@ -1,11 +1,11 @@
 <mat-toolbar color="primary">
-    <span>
+    <span style="margin-right: 15px;">
       <a routerLink="" mat-button>
         <mat-icon>videogame_asset</mat-icon> GamesMarket
       </a>
     </span>
   
-    <app-authorize-view role="admin">
+    <app-authorize-view>
       <ng-container authorized>
         <div>
           <a mat-button routerLink="games"> Games </a>
@@ -16,21 +16,36 @@
     <div class="space"></div>
 
     <div class="cabecalho__icones__item">
-      <a routerLink="" mat-button>
+      <app-authorize-view>
+        <ng-container authorized>
+          <a title="Admin Security" routerLink="" mat-button>
+            <mat-icon>security</mat-icon>
+          </a>
+        </ng-container>
+      </app-authorize-view>
+
+      <a title="Shopping Cart" routerLink="" mat-button>
         <mat-icon>shopping_cart</mat-icon>
       </a>
-      <a routerLink="" mat-button>
+
+      <a title="Notifications" routerLink="" mat-button>
         <mat-icon>notifications</mat-icon>
       </a>
       
-      <button class="r-full" mat-button [matMenuTriggerFor]="menu">
+      <button title="{{user}}" class="r-full" mat-button [matMenuTriggerFor]="menu">
         <mat-icon>account_circle</mat-icon>
       </button>
-      
-      <mat-menu #menu="matMenu">
+      <mat-menu class="menu" #menu="matMenu">
+        <div class="container-username">
+          <h4>{{ user }}</h4>
+        </div>
+        <button mat-menu-item>
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </button>
         <button mat-menu-item (click)="logout()">
           <mat-icon>exit_to_app</mat-icon>
-          <span>logout</span>
+          <span>Logout</span>
         </button>
       </mat-menu>
 

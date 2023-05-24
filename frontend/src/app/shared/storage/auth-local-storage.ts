@@ -20,8 +20,8 @@ export class AuthLocalStorage {
         localStorage.setItem('gamesmarket.tokenExpiration', tokenExpiration);
     }
 
-    public getUserInfo(): string {
-        return this.getFieldFromToken('user');
+    public getUserName(): string {
+        return this.getFieldFromToken('userName');
     }
     
     public getRole(): string {

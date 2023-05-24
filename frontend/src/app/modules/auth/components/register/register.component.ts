@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { parseWebAPIErrors } from 'src/app/shared/utils';
-import { UserCreateDTO } from '../../models/auth.models';
+import { AuthenticationResponse, UserCreateDTO } from '../../models/auth.models';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -13,6 +14,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class RegisterComponent implements OnInit {
 
   constructor(
+    private toastr: ToastrService,
     private formbuilder: FormBuilder,
     private authService: AuthService,
     private router: Router
@@ -38,12 +40,31 @@ export class RegisterComponent implements OnInit {
     })
   }
 
-  register(userCreateDTO: UserCreateDTO){
-    this.errors = [];
-    this.authService.register(userCreateDTO).subscribe(authenticationResponse => {
-      this.authService.saveToken(authenticationResponse);
-      this.router.navigate(['/home']);
-    }, error => this.errors = parseWebAPIErrors(error));
+
+  register(userCreateDTO: UserCreateDTO) {
+    this.authService
+      .register(userCreateDTO)
+      .subscribe({
+        next: (defaultHttpResponse) => {
+          this.authService.saveToken(defaultHttpResponse.data as AuthenticationResponse);
+
+          this.toastr.success(
+            "You've successfully registered",
+            'Welcome'
+          );
+          this.router.navigate(['/home']);
+        },
+        error: (e) => {
+          if (e.error && e.error.errors) {
+            this.errors = e.error.errors;
+          } else {
+            this.toastr.error(
+              'Internal error. Please try again later', 
+              'Error on authentication',
+            );
+          }
+        }
+      })
   }
 
   getEmailErrorMessage(){

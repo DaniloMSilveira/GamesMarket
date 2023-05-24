@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 import { AuthLocalStorage } from 'src/app/shared/storage/auth-local-storage';
+import { DefaultHttpResponse } from 'src/app/shared/models/http.model';
 
 import {
-  authenticationResponse,
+  AuthenticationResponse,
   UserCreateDTO,
-  UserCredentials,
-  userDTO
+  UserCredentials
 } from '../models/auth.models';
 
 @Injectable({
@@ -21,20 +21,17 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  private apiURL = environment.apiURL;
-  private readonly tokenKey: string = 'token';
-  private readonly expirationTokenKey: string = 'token-expiration'
-  private readonly roleField = "role";
+  private apiURL = environment.apiURL + '/v1';
 
-  register(userCreateDTO: UserCreateDTO): Observable<authenticationResponse> {
-    return this.http.post<authenticationResponse>(this.apiURL + "/user/create", userCreateDTO);
+  register(userCreateDTO: UserCreateDTO): Observable<DefaultHttpResponse> {
+    return this.http.post<DefaultHttpResponse>(this.apiURL + "/auth/register", userCreateDTO);
   }
 
-  login(userCredentials: UserCredentials): Observable<authenticationResponse> {
-    return this.http.post<authenticationResponse>(this.apiURL + "/user/login", userCredentials);
+  login(userCredentials: UserCredentials): Observable<DefaultHttpResponse> {
+    return this.http.post<DefaultHttpResponse>(this.apiURL + "/auth/login", userCredentials);
   }
 
-  saveToken(authenticationResponse: authenticationResponse) {
+  saveToken(authenticationResponse: AuthenticationResponse) {
     this.authLocalStorage.setTokenInfo(
       authenticationResponse.token,
       authenticationResponse.expiration.toString()

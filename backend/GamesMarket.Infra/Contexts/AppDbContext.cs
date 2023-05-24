@@ -12,6 +12,8 @@ namespace GamesMarket.Infra.Contexts
             ChangeTracker.AutoDetectChangesEnabled = false;
         }
 
+        public DbSet<User> Users { get; set; }
+
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             if (cancellationToken.IsCancellationRequested == false)

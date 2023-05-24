@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
-import { UserCredentials } from '../../models/auth.models';
+import { AuthenticationResponse, UserCredentials } from '../../models/auth.models';
 import { AuthService } from '../../services/auth.service';
 
 
@@ -38,18 +38,25 @@ export class LoginComponent implements OnInit {
     this.authService
       .login(userCredentials)
       .subscribe({
-        next: (authenticationResponse) => {
-          this.authService.saveToken(authenticationResponse);
+        next: (defaultHttpResponse) => {
+          this.authService.saveToken(defaultHttpResponse.data as AuthenticationResponse);
+
+          this.toastr.success(
+            "You've successfully authenticated",
+            'Welcome'
+          );
           this.router.navigate(['/home']);
         },
-        error: (e) => this.toastr.error(
-          e.message || 'Internal error', 
-          'Error on authentication', 
-          {
-            closeButton: true,
-            progressBar: true,
+        error: (e) => {
+          if (e.error && e.error.errors) {
+            this.errors = e.error.errors;
+          } else {
+            this.toastr.error(
+              'Internal error. Please try again later', 
+              'Error on authentication',
+            );
           }
-        )
+        }
       })
   }
 }

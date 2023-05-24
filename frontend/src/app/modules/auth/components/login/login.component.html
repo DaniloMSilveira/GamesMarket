@@ -14,13 +14,14 @@
           <input type="password" formControlName="password" matInput />
           <mat-error>The field Password is required</mat-error>
       </mat-form-field>
-      <div class="button">
+      <div>
+        <app-display-errors [errors]="errors"></app-display-errors>
         <button mat-flat-button color="primary" [disabled]="form.invalid">
           Login
         </button>
-      </div>
-      <div style="margin-top: 20px; text-align: right;">
-          Don't have an account? Click here to <a [routerLink]="['/auth/register']" >register</a>
+        <div style="margin-top: 20px; text-align: right;">
+            Don't have an account? Click here to <a [routerLink]="['/auth/register']" >register</a>
+        </div>
       </div>
     </form>
   </mat-card-content>

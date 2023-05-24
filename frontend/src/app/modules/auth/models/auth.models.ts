@@ -3,19 +3,21 @@ export interface UserCredentials{
     password: string;
 }
 
-export type UserCreateDTO = {
-    name: string;
-    email: string;
-    userName: string;
-    password: string;
-}
-
-export interface authenticationResponse{
+export interface AuthenticationResponse{
     token: string;
     expiration: Date;
 }
 
-export interface userDTO{
+export type UserCreateDTO = {
+    name: string;
+    userName: string;
+    email: string;
+    password: string;
+}
+
+export interface UserReadDTO{
     id: string;
+    name: string;
+    userName: string;
     email: string;
 }

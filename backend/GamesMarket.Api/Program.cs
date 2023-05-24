@@ -1,7 +1,10 @@
+using GamesMarket.Api.Configuration;
 using GamesMarket.Api.Extensions;
 using GamesMarket.Domain.Interfaces;
 using GamesMarket.Domain.Notifications;
+using GamesMarket.Domain.Repositories;
 using GamesMarket.Infra.Contexts;
+using GamesMarket.Infra.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -34,11 +37,7 @@ builder.Services.AddDbContext<AppDbContext>(opt => {
 });
 
 // Injections before building the app
-builder.Services.AddScoped<INotificator, Notificator>();
-
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddScoped<IUser, AspNetUser>();
-
+builder.Services.ResolveDependencies();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

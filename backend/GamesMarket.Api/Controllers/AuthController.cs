@@ -1,5 +1,9 @@
-﻿using GamesMarket.Api.Dtos;
+﻿using AutoMapper;
+using GamesMarket.Api.Dtos;
+using GamesMarket.Domain.Entities;
 using GamesMarket.Domain.Interfaces;
+using GamesMarket.Domain.Repositories;
+using GamesMarket.Infra.Contexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -15,17 +19,23 @@ namespace GamesMarket.Api.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
+        private readonly IUserRepository _repository;
         private readonly ILogger _logger;
+        private readonly IMapper _mapper;
 
         public AuthController(UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             IConfiguration configuration,
+            IUserRepository repository,
+            IMapper mapper,
             ILogger<AuthController> logger,
             INotificator notificator,
             IUser user) : base(notificator, user)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _mapper = mapper;
+            _repository = repository;
             _configuration = configuration;
             _logger = logger;
         }
@@ -36,18 +46,24 @@ namespace GamesMarket.Api.Controllers
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var user = new IdentityUser
+            var identityUser = new IdentityUser
             {
                 UserName = userCreateDto.UserName,
                 Email = userCreateDto.Email,
                 EmailConfirmed = true
             };
-            var result = await _userManager.CreateAsync(user, userCreateDto.Password);
+            var result = await _userManager.CreateAsync(identityUser, userCreateDto.Password);
 
             if (result.Succeeded)
             {
-                await _signInManager.SignInAsync(user, false);
-                return CustomResponse(await BuildToken(user.UserName));
+                // Create a user in different table
+                var user = _mapper.Map<User>(userCreateDto);
+                user.AspNetUserId = identityUser.Id;
+                await _repository.CreateAsync(user);
+
+                // Sign in and return token
+                await _signInManager.SignInAsync(identityUser, false);
+                return CustomResponse(await BuildToken(identityUser.UserName));
             }
             foreach (var error in result.Errors)
             {
@@ -87,7 +103,7 @@ namespace GamesMarket.Api.Controllers
             var claims = await _userManager.GetClaimsAsync(user);
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            claims.Add(new Claim("UserName", user.UserName));
+            claims.Add(new Claim("userName", user.UserName));
             claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
             claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
             claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));

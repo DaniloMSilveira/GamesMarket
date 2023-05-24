@@ -1,3 +1,6 @@
-<ul *ngIf="errors.length > 0">
-    <li *ngFor="let error of errors">{{error}}</li>
-</ul>
+<div *ngIf="errors.length > 0">
+    <h3>Please check the errors bellow</h3>
+    <ul *ngIf="errors.length > 0">
+        <li *ngFor="let error of errors">{{error}}</li>
+    </ul>
+</div>

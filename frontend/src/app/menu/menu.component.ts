@@ -19,11 +19,7 @@ export class MenuComponent implements OnInit {
   user: any
 
   ngOnInit(): void {
-    const userInfo = this.authLocalStorage.getUserInfo();
-
-    if (userInfo) {
-      this.user = JSON.parse(userInfo);
-    }
+    this.user = this.authLocalStorage.getUserName();
   }
 
   logout(): void {

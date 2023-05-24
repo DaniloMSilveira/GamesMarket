@@ -26,6 +26,7 @@
                 <mat-error>The field Password is required</mat-error>
             </mat-form-field>
             <div>
+                <app-display-errors [errors]="errors"></app-display-errors>
                 <button mat-flat-button color="primary" [disabled]="form.invalid">
                     Register
                 </button>

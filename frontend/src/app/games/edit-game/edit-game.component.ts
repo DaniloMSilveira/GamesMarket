@@ -22,7 +22,6 @@ export class EditGameComponent implements OnInit {
   }
 
   saveChanges(GameDetails: GameDetails){
-    console.log(GameDetails);
     this.service.edit(this.model.id, GameDetails).subscribe(() => {
       this.router.navigate(['/games']);
     });

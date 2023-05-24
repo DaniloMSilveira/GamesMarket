@@ -1,3 +1,9 @@
-li {
+
+h3, li {
     color: red;
+}
+
+h3 {
+    margin-top: 5px;
+    text-align: center;
 }
