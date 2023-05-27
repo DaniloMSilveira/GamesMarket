@@ -15,23 +15,13 @@ import { MaterialModule } from './shared/material/material.module';
 // Interceptors
 import { JwtInterceptorService } from './shared/services/jwt-interceptor.service';
 
-
-import { HomeComponent } from './home/home.component';
-import { MenuComponent } from './menu/menu.component';
-
-// Shared Components
-import { AuthorizeViewComponent } from './shared/components/authorize-view/authorize-view.component';
-
 export const httpInterceptorProviders = [
   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
 ];
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HomeComponent,
-    MenuComponent,
-    AuthorizeViewComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

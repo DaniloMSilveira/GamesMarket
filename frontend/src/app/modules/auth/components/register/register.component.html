@@ -1,41 +1,39 @@
-<div class="container-center">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Register</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <form (submit)="register(form.value)" [formGroup]="form">
-            <mat-form-field appearance="outline">
-                <mat-label>Name</mat-label>
-                <input formControlName="name" matInput />
-                <mat-error>The field Name is required</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label>Email</mat-label>
-                <input formControlName="email" matInput />
-                <mat-error>{{getEmailErrorMessage()}}</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label>Username</mat-label>
-                <input formControlName="userName" matInput />
-                <mat-error>The field Username is required</mat-error>
-            </mat-form-field>
-            <mat-form-field appearance="outline">
-                <mat-label>Password</mat-label>
-                <input type="password" formControlName="password" matInput />
-                <mat-error>The field Password is required</mat-error>
-            </mat-form-field>
-            <div>
-                <app-display-errors [errors]="errors"></app-display-errors>
-                <button mat-flat-button color="primary" [disabled]="form.invalid">
-                    Register
-                </button>
-                <div style="margin-top: 20px; text-align: right;">
-                    You already have an account? Click here to <a [routerLink]="['/auth/login']" >login</a>
-                </div>
+<mat-card>
+    <mat-card-header>
+    <mat-card-title>Register</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+    <form (submit)="register(form.value)" [formGroup]="form">
+        <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input formControlName="name" matInput />
+            <mat-error>The field Name is required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input formControlName="email" matInput />
+            <mat-error>{{getEmailErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Username</mat-label>
+            <input formControlName="userName" matInput />
+            <mat-error>The field Username is required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input type="password" formControlName="password" matInput />
+            <mat-error>The field Password is required</mat-error>
+        </mat-form-field>
+        <div>
+            <app-display-errors [errors]="errors"></app-display-errors>
+            <button mat-flat-button color="primary" [disabled]="form.invalid">
+                Register
+            </button>
+            <div style="margin-top: 20px; text-align: right;">
+                You already have an account? Click here to <a [routerLink]="['/auth/login']" >login</a>
             </div>
-        </form>
-      </mat-card-content>
-    </mat-card>
-</div>
+        </div>
+    </form>
+    </mat-card-content>
+</mat-card>
   

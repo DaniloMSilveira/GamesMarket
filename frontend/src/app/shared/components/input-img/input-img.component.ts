@@ -4,7 +4,7 @@ import { toBase64 } from '../../utils';
 @Component({
   selector: 'app-input-img',
   templateUrl: './input-img.component.html',
-  styleUrls: ['./input-img.component.css']
+  styleUrls: ['./input-img.component.scss']
 })
 export class InputImgComponent implements OnInit {
 

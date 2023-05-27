@@ -2,8 +2,7 @@
 
 namespace GamesMarket.Domain.Repositories
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<User>
     {
-        Task CreateAsync(User user);
     }
 }

@@ -5,7 +5,7 @@ import { AuthLocalStorage } from 'src/app/shared/storage/auth-local-storage';
 @Component({
   selector: 'app-authorize-view',
   templateUrl: './authorize-view.component.html',
-  styleUrls: ['./authorize-view.component.css']
+  styleUrls: ['./authorize-view.component.scss']
 })
 export class AuthorizeViewComponent implements OnInit {
 

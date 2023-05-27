@@ -2,6 +2,7 @@
 using GamesMarket.Domain.Interfaces;
 using GamesMarket.Domain.Notifications;
 using GamesMarket.Domain.Repositories;
+using GamesMarket.Domain.Services;
 using GamesMarket.Infra.Repositories;
 
 namespace GamesMarket.Api.Configuration
@@ -15,6 +16,8 @@ namespace GamesMarket.Api.Configuration
             services.AddScoped<INotificator, Notificator>();
 
             services.AddScoped<IUserRepository, UserRepository>();
+
+            services.AddScoped<IUserService, UserService>();
 
             return services;
         }

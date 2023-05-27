@@ -7,8 +7,10 @@ import { RegisterComponent } from './components/register/register.component';
 
 const routerConfig: Routes = [
     {
-        path: '', component: AuthenticationFormComponent,
+        path: '', 
+        component: AuthenticationFormComponent,
         children: [
+            { path: '', redirectTo: 'login', pathMatch: 'full' },
             { 
                 path: 'login',
                 component: LoginComponent 

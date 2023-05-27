@@ -14,8 +14,7 @@ namespace GamesMarket.Api.Controllers
         protected Guid UserId { get; set; }
         protected bool UserAuthenticated { get; set; }
 
-        protected MainController(INotificator notificator,
-                                 IUser appUser)
+        protected MainController(INotificator notificator, IUser appUser)
         {
             _notificator = notificator;
             AppUser = appUser;

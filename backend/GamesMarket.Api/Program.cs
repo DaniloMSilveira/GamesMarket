@@ -63,7 +63,7 @@ builder.Services.AddAuthentication(
 
 builder.Services.AddAuthorization(
     opt => {
-        opt.AddPolicy("Admin", policy => policy.RequireClaim("role", "admin"));
+        opt.AddPolicy("IsAdmin", policy => policy.RequireClaim("role", "admin"));
     });
 
 

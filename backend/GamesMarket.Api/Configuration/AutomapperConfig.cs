@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GamesMarket.Api.Dtos;
 using GamesMarket.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace GamesMarket.Api.Configuration
 {
@@ -9,7 +10,8 @@ namespace GamesMarket.Api.Configuration
         public AutomapperConfig()
         {
             CreateMap<UserCreateDto, User>();
-            CreateMap<User, UserReadDto>();
+            CreateMap<UserEditDto, User>();
+            CreateMap<User, UserReadDto>().ReverseMap();
         }
     }
 }

@@ -1,0 +1,45 @@
+.container-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.table-options {
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.table-options button {
+  align-self: center;
+}
+
+.mat-form-field {
+  width: 30%;
+  font-size: 14px;
+}
+
+.table-center {
+  width: 75%;
+}
+  
+.mat-column-id {
+  width: 320px;
+}
+
+.mat-column-username {
+  width: 150px;
+}
+
+.mat-column-email {
+  width: 250px;
+}
+
+.mat-column-roles {
+  width: 200px;
+}
+
+.mat-column-actions {
+  width: 80px;
+}

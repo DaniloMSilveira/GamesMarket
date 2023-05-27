@@ -2,16 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // Guards
-import { ActiveGuard } from './guards/active.guard';
-
-import { HomeComponent } from './home/home.component';
+import { ActiveGuard } from './shared/guards/active.guard';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  {
-    path: 'home',
+  { 
+    path: '', 
     canActivate: [ActiveGuard],
-    component: HomeComponent
+    loadChildren: () => import('./modules/main/main.module')
+      .then(m => m.MainModule)
   },
   {
     path: 'auth',
@@ -20,7 +18,8 @@ const routes: Routes = [
   },
   {
     path: '**', 
-    redirectTo: 'home'
+    redirectTo: '',
+    pathMatch: 'full'
   },
 ];
 

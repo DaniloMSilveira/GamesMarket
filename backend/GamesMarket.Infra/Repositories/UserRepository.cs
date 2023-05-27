@@ -4,23 +4,10 @@ using GamesMarket.Infra.Contexts;
 
 namespace GamesMarket.Infra.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : Repository<User>, IUserRepository
     {
-        private readonly AppDbContext _context;
 
-        public UserRepository(AppDbContext context)
-        {
-            _context = context;
-        }
-        public async Task CreateAsync(User user)
-        {
-            if (user == null)
-            {
-                throw new ArgumentNullException(nameof(user));
-            }
+        public UserRepository(AppDbContext context) : base(context) { }
 
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
-        }
     }
 }

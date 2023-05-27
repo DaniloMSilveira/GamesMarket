@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+  <span style="margin-right: 15px;">
+    <a routerLink="" mat-button>
+      <mat-icon>videogame_asset</mat-icon> GamesMarket
+    </a>
+  </span>
+
+  <a mat-button routerLink="games">Games</a>
+
+  <div class="space"></div>
+
+  <app-authorize-view [role]="'admin'">
+    <ng-container authorized>
+      <app-admin-menu></app-admin-menu>
+    </ng-container>
+  </app-authorize-view>
+  
+  <app-user-menu></app-user-menu>
+</mat-toolbar>

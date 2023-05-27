@@ -25,9 +25,6 @@ namespace GamesMarket.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("AspNetUserId")
-                        .HasColumnType("char(36)");
-
                     b.Property<string>("AvatarUrl")
                         .HasColumnType("varchar(100)");
 
@@ -54,7 +51,7 @@ namespace GamesMarket.Infra.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("UsersProfile");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

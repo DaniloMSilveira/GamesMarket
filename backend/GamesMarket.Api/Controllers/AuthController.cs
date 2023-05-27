@@ -2,8 +2,6 @@
 using GamesMarket.Api.Dtos;
 using GamesMarket.Domain.Entities;
 using GamesMarket.Domain.Interfaces;
-using GamesMarket.Domain.Repositories;
-using GamesMarket.Infra.Contexts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -19,14 +17,15 @@ namespace GamesMarket.Api.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IConfiguration _configuration;
-        private readonly IUserRepository _repository;
+        private readonly IUserService _userService;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
 
-        public AuthController(UserManager<IdentityUser> userManager,
+        public AuthController(
+            UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
             IConfiguration configuration,
-            IUserRepository repository,
+            IUserService userService,
             IMapper mapper,
             ILogger<AuthController> logger,
             INotificator notificator,
@@ -35,7 +34,7 @@ namespace GamesMarket.Api.Controllers
             _signInManager = signInManager;
             _userManager = userManager;
             _mapper = mapper;
-            _repository = repository;
+            _userService = userService;
             _configuration = configuration;
             _logger = logger;
         }
@@ -58,8 +57,7 @@ namespace GamesMarket.Api.Controllers
             {
                 // Create a user in different table
                 var user = _mapper.Map<User>(userCreateDto);
-                user.AspNetUserId = identityUser.Id;
-                await _repository.CreateAsync(user);
+                await _userService.CreateUser(user);
 
                 // Sign in and return token
                 await _signInManager.SignInAsync(identityUser, false);

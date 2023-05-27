@@ -4,7 +4,7 @@ import { multipleSelectorModel } from './multiple-selector.model';
 @Component({
   selector: 'app-multiple-selector',
   templateUrl: './multiple-selector.component.html',
-  styleUrls: ['./multiple-selector.component.css']
+  styleUrls: ['./multiple-selector.component.scss']
 })
 export class MultipleSelectorComponent implements OnInit {
 
