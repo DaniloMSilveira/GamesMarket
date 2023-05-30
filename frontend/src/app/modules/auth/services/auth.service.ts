@@ -1,38 +1,46 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
+import { Observable, catchError, map } from 'rxjs';
 
-import { AuthLocalStorage } from 'src/app/shared/storage/auth-local-storage';
-import { DefaultHttpResponse } from 'src/app/shared/models/http.model';
+import { BaseService } from 'src/app/shared/services/base.service';
 
 import {
   AuthenticationResponse,
-  UserCreateDTO,
+  RegisterDto,
   UserCredentials
 } from '../models/auth.models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class AuthService extends BaseService {
 
-  authLocalStorage = new AuthLocalStorage();
+  constructor(private http: HttpClient) { super(); }
 
-  constructor(private http: HttpClient) { }
+  register(dto: RegisterDto): Observable<AuthenticationResponse> {
+    const response = this.http
+      .post(this.apiUrlV1 + 'auth/register', dto, this.getDefaultHeaders())
+      .pipe(
+          map(this.extractData),
+          catchError(this.serviceError)
+        );
 
-  private apiURL = environment.apiURL + '/v1';
-
-  register(userCreateDTO: UserCreateDTO): Observable<DefaultHttpResponse> {
-    return this.http.post<DefaultHttpResponse>(this.apiURL + "/auth/register", userCreateDTO);
+    return response;
   }
 
-  login(userCredentials: UserCredentials): Observable<DefaultHttpResponse> {
-    return this.http.post<DefaultHttpResponse>(this.apiURL + "/auth/login", userCredentials);
+  login(userCredentials: UserCredentials): Observable<AuthenticationResponse> {
+    const response = this.http
+      .post(this.apiUrlV1 + 'auth/login', userCredentials, this.getDefaultHeaders())
+      .pipe(
+          map(this.extractData),
+          catchError(this.serviceError)
+        );
+
+    return response;
   }
 
   saveToken(authenticationResponse: AuthenticationResponse) {
-    this.authLocalStorage.setTokenInfo(
+    this.localStorageUtils.setTokenInfo(
       authenticationResponse.token,
       authenticationResponse.expiration.toString()
     );

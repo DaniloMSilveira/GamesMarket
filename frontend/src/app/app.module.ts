@@ -13,11 +13,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './shared/material/material.module';
 
 // Interceptors
-import { JwtInterceptorService } from './shared/services/jwt-interceptor.service';
+import { ErrorInterceptor } from './shared/services/error-handler.service';
 
-export const httpInterceptorProviders = [
-  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
-];
 
 @NgModule({
   declarations: [
@@ -36,7 +33,7 @@ export const httpInterceptorProviders = [
     })
   ],
   providers: [
-    httpInterceptorProviders
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

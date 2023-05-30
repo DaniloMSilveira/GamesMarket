@@ -1,4 +1,4 @@
-export class AuthLocalStorage {
+export class LocalStorageUtils {
     public getToken() {
         return localStorage.getItem('gamesmarket.token');
     }

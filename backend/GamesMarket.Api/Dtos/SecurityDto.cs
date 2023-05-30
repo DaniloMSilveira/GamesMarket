@@ -17,13 +17,13 @@ namespace GamesMarket.Api.Dtos
         public DateTime Expiration { get; set; }
     }
 
-    public class AdminChangeRolesDto
+    public class AdminChangeProfileDto
     {
         [Required]
         public string UserName { get; set; }
 
         [Required]
-        public IEnumerable<string> Roles { get; set; }
+        public string Profile { get; set; }
     }
 
     public class AdminListUsersDto
@@ -31,6 +31,6 @@ namespace GamesMarket.Api.Dtos
         public string Id { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
-        public IEnumerable<string> Roles { get; set; }
+        public string Profile { get; set; }
     }
 }

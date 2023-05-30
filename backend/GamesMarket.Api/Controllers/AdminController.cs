@@ -41,21 +41,20 @@ namespace GamesMarket.Api.Controllers
                     Id = user.Id,
                     UserName = user.UserName,
                     Email = user.Email,
-                    Roles = claims.Select(x => x.Value),
+                    Profile = String.Join(",", claims.Select(x => x.Value)),
             });
             }
             return list;
         }
 
-        [HttpPost("change-roles")]
+        [HttpPost("change-profile")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<ActionResult> MakeAdmin([FromBody] AdminChangeRolesDto dto)
+        public async Task<ActionResult> MakeAdmin([FromBody] AdminChangeProfileDto dto)
         {
             var user = await _userManager.FindByNameAsync(dto.UserName);
-            var claims = dto.Roles.Select(item => new Claim("role", item));
 
             await _userManager.RemoveClaimsAsync(user, await _userManager.GetClaimsAsync(user));
-            await _userManager.AddClaimsAsync(user, claims);
+            await _userManager.AddClaimAsync(user, new Claim("role", dto.Profile));
             return NoContent();
         }
     }

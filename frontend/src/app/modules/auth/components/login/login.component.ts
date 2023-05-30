@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
@@ -13,15 +13,18 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+
+  form: FormGroup;
+  errors: string[] = [];
+  returnUrl: string;
+
   constructor(
     private toastr: ToastrService,
     private authService: AuthService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
-
-  form: FormGroup;
-  errors: string[] = [];
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
@@ -32,20 +35,24 @@ export class LoginComponent implements OnInit {
         validators: [Validators.required]
       }]
     });
+
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
   }
 
   login(userCredentials: UserCredentials) {
     this.authService
       .login(userCredentials)
       .subscribe({
-        next: (defaultHttpResponse) => {
-          this.authService.saveToken(defaultHttpResponse.data as AuthenticationResponse);
+        next: (result: AuthenticationResponse) => {
+          this.authService.saveToken(result);
 
           this.toastr.success(
             "You've successfully authenticated",
-            'Welcome'
+            `Welcome ${userCredentials.userName}`
           );
-          this.router.navigate(['/home']);
+          this.returnUrl
+            ? this.router.navigate([this.returnUrl])
+            : this.router.navigate(['/home']);
         },
         error: (e) => {
           if (e.error && e.error.errors) {

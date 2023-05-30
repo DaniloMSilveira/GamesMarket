@@ -1,7 +1,14 @@
 
 export type AdminUser = {
     id: string;
-    username: string;
+    userName: string;
     email: string;
-    roles: string[];
+    profile?: string;
+}
+
+export type UserCreateDto = {
+    name: string;
+    userName: string;
+    email: string;
+    password: string;
 }

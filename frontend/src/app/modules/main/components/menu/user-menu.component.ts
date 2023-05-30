@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthLocalStorage } from 'src/app/shared/storage/auth-local-storage';
+import { LocalStorageUtils } from 'src/app/shared/storage/local-storage';
 
 @Component({
   selector: 'app-user-menu',
@@ -34,7 +34,7 @@ import { AuthLocalStorage } from 'src/app/shared/storage/auth-local-storage';
 })
 
 export class UserMenuComponent implements OnInit {
-  authLocalStorage = new AuthLocalStorage();
+  localStorageUtils = new LocalStorageUtils();
 
   user!: any;
   avatar: string = '../../../../../assets/avatar.webp'
@@ -44,11 +44,11 @@ export class UserMenuComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.user = this.authLocalStorage.getUserName();
+    this.user = this.localStorageUtils.getUserName();
   }
 
   logout(): void {
-    this.authLocalStorage.removeUserInfo();
+    this.localStorageUtils.removeUserInfo();
     this.router.navigate(['/auth/login'])
   }
 }

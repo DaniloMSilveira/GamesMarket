@@ -1,9 +1,16 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { AdminUser } from '../../models/admin.model';
+import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+
+import { AdminUser } from '../../models/admin.model';
+
+import { CreateUserComponent } from '../create-user/create-user.component';
+import { ToastrService } from 'ngx-toastr';
+import { AdminService } from '../../services/admin.service';
+import { UserCreateDto } from '../../models/admin.model';
+import { EditUserComponent } from '../edit-user/edit-user.component';
 
 @Component({
   selector: 'app-users-table',
@@ -11,39 +18,83 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./users-table.component.scss']
 })
 export class UsersTableComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['id', 'username', 'email', 'roles', 'actions'];
+  displayedColumns: string[] = ['id', 'username', 'email', 'profile', 'actions'];
   dataSource: MatTableDataSource<AdminUser>;
-  selection = new SelectionModel<AdminUser>(true, []);
+
+  users: AdminUser[] = [];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() { }
+  constructor(
+    private dialog: MatDialog,
+    private toastr: ToastrService,
+    private adminService: AdminService,
+    private ref: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
-    const users = [
-      {
-          "id": "bb9518f1-dba2-46f3-9a51-a3e9c58ed56d",
-          "username": "teste",
-          "email": "teste@gmail.com",
-          "roles": []
-      },
-      {
-          "id": "d8468f1a-34c4-4ac6-a39f-f0ebec5afcb7",
-          "username": "danilosilveiraaa",
-          "email": "danilosilveira@gmail.com",
-          "roles": [
-              "admin",
-              "guest"
-          ]
-      }
-  ]
-    this.dataSource = new MatTableDataSource(users);
+    this.adminService.getUsers()
+      .subscribe({
+        next: (result: AdminUser[]) => {
+          this.users = result;
+          this.updateDataSource();
+        },
+        error: (e) => {
+          this.toastr.error(
+            'Internal error. Please try again later', 
+            'Error on authentication',
+          );
+        }
+      })
   }
 
   ngAfterViewInit() {
+    this.dataSource = new MatTableDataSource(this.users);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.ref.detectChanges();
+  }
+
+  createUser(dto: UserCreateDto) {
+    this.users.push({
+      id: `mock-id-${dto.userName}`,
+      email: dto.email,
+      userName: dto.userName,
+      profile: 'guest'
+    })
+    this.updateDataSource();
+    this.toastr.success(
+      `You've created the user ${dto.userName}`,
+      `Success`
+    );
+  }
+
+  updateUser(dto: AdminUser) {
+    console.log('dto:', dto)
+    this.users = this.users.map(user => {
+      if (user.userName === dto.userName) {
+        return {
+          ...user,
+          ...dto
+        }
+      }
+      return user
+    });
+    this.updateDataSource();
+    this.toastr.success(
+      `You've updated the user ${dto.userName}`,
+      `Success`
+    );
+  }
+
+  deleteUser(username: string) {
+    this.users = this.users.filter(item => item.userName !== username);
+    this.updateDataSource();
+    this.toastr.success(
+      `You've deleted the user ${username}`,
+      `Success`
+    );
   }
 
   applyFilter(event: Event) {
@@ -53,5 +104,31 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+  }
+
+  openCreateUserDialog() {
+    let dialogRef = this.dialog.open(CreateUserComponent);
+
+    dialogRef.afterClosed().subscribe((res: any) => {
+      if (res && res.data) {
+        this.createUser(res.data);
+      }
+    })
+  }
+
+  openEditUserDialog(user: AdminUser) {
+    let dialogRef = this.dialog.open(EditUserComponent, {
+      data: user
+    });
+
+    dialogRef.afterClosed().subscribe((res: any) => {
+      if (res && res.data) {
+        this.updateUser(res.data);
+      }
+    })
+  }
+
+  updateDataSource() {
+    this.dataSource.data = this.users;
   }
 }

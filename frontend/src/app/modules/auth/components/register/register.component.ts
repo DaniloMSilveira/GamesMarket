@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { parseWebAPIErrors } from 'src/app/shared/utils';
-import { AuthenticationResponse, UserCreateDTO } from '../../models/auth.models';
+import { AuthenticationResponse, RegisterDto } from '../../models/auth.models';
 import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -41,12 +41,12 @@ export class RegisterComponent implements OnInit {
   }
 
 
-  register(userCreateDTO: UserCreateDTO) {
+  register(dto: RegisterDto) {
     this.authService
-      .register(userCreateDTO)
+      .register(dto)
       .subscribe({
-        next: (defaultHttpResponse) => {
-          this.authService.saveToken(defaultHttpResponse.data as AuthenticationResponse);
+        next: (result: AuthenticationResponse) => {
+          this.authService.saveToken(result);
 
           this.toastr.success(
             "You've successfully registered",
@@ -60,7 +60,7 @@ export class RegisterComponent implements OnInit {
           } else {
             this.toastr.error(
               'Internal error. Please try again later', 
-              'Error on authentication',
+              'Error on register',
             );
           }
         }

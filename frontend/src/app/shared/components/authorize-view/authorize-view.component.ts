@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { AuthLocalStorage } from 'src/app/shared/storage/auth-local-storage';
+import { LocalStorageUtils } from 'src/app/shared/storage/local-storage';
 
 @Component({
   selector: 'app-authorize-view',
@@ -9,7 +9,7 @@ import { AuthLocalStorage } from 'src/app/shared/storage/auth-local-storage';
 })
 export class AuthorizeViewComponent implements OnInit {
 
-  authLocalStorage = new AuthLocalStorage();
+  localStorageUtils = new LocalStorageUtils();
 
   ngOnInit(): void {
   }
@@ -19,9 +19,9 @@ export class AuthorizeViewComponent implements OnInit {
 
   public isAuthorized(){
     if (this.role){
-      return this.authLocalStorage.getRole() === this.role;
+      return this.localStorageUtils.getRole() === this.role;
     } else{
-      return this.authLocalStorage.isAuthenticated();
+      return this.localStorageUtils.isAuthenticated();
     }
   }
 

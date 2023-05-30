@@ -8,16 +8,9 @@ export interface AuthenticationResponse{
     expiration: Date;
 }
 
-export type UserCreateDTO = {
+export type RegisterDto = {
     name: string;
     userName: string;
     email: string;
     password: string;
-}
-
-export interface UserReadDTO{
-    id: string;
-    name: string;
-    userName: string;
-    email: string;
 }
