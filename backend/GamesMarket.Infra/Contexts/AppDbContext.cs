@@ -13,6 +13,9 @@ namespace GamesMarket.Infra.Contexts
         }
 
         public DbSet<User> UsersProfile { get; set; }
+        public DbSet<Publisher> Publishers { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<Game> Games { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

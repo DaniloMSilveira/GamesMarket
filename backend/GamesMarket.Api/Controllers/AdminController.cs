@@ -1,9 +1,7 @@
-﻿using AutoMapper;
-using GamesMarket.Api.Dtos;
+﻿using GamesMarket.Api.Dtos;
+using GamesMarket.Api.Extensions;
 using GamesMarket.Domain.Interfaces;
-using GamesMarket.Domain.Repositories;
 using GamesMarket.Infra.Contexts;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +10,7 @@ using System.Security.Claims;
 
 namespace GamesMarket.Api.Controllers
 {
+    [Authorize]
     [Route("v1/admin")]
     public class AdminController: MainController
     {
@@ -28,8 +27,8 @@ namespace GamesMarket.Api.Controllers
             _context = context;
         }
 
+        [ClaimsAuthorize("profile", "admin")]
         [HttpGet("list-users")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<List<AdminListUsersDto>>> GetListUsers()
         {
             var users = await _context.Users.ToListAsync();
@@ -48,13 +47,12 @@ namespace GamesMarket.Api.Controllers
         }
 
         [HttpPost("change-profile")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult> MakeAdmin([FromBody] AdminChangeProfileDto dto)
         {
             var user = await _userManager.FindByNameAsync(dto.UserName);
 
             await _userManager.RemoveClaimsAsync(user, await _userManager.GetClaimsAsync(user));
-            await _userManager.AddClaimAsync(user, new Claim("role", dto.Profile));
+            await _userManager.AddClaimAsync(user, new Claim("profile", dto.Profile));
             return NoContent();
         }
     }

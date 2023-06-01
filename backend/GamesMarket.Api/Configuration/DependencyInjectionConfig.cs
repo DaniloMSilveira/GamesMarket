@@ -16,8 +16,13 @@ namespace GamesMarket.Api.Configuration
             services.AddScoped<INotificator, Notificator>();
 
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IPublisherRepository, PublisherRepository>();
+            services.AddScoped<IGameRepository, GameRepository>();
 
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPublisherService, PublisherService>();
+            services.AddScoped<IGameService, GameService>();
 
             return services;
         }

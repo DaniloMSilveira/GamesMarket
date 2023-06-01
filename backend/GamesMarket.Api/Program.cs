@@ -8,6 +8,7 @@ using GamesMarket.Infra.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
@@ -28,6 +29,7 @@ builder.Services.AddCors(
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("GamesMarketMysql");
@@ -36,36 +38,12 @@ builder.Services.AddDbContext<AppDbContext>(opt => {
     opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
-// Injections before building the app
-builder.Services.ResolveDependencies();
-
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-        .AddEntityFrameworkStores<AppDbContext>()
-        .AddDefaultTokenProviders(); ;
+builder.Services.AddIdentityConfiguration(builder.Configuration);
 
-builder.Services.AddAuthentication(
-    opt => {
-        opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    }).AddJwtBearer(
-        o => {
-            o.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtKey"])),
-                ClockSkew = TimeSpan.Zero
-
-            };
-        });
-
-builder.Services.AddAuthorization(
-    opt => {
-        opt.AddPolicy("IsAdmin", policy => policy.RequireClaim("role", "admin"));
-    });
-
+// Injections before building the app
+builder.Services.ResolveDependencies();
 
 
 var app = builder.Build();

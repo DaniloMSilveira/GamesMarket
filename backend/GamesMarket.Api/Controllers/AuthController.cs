@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using GamesMarket.Api.Dtos;
+using GamesMarket.Api.Extensions;
 using GamesMarket.Domain.Entities;
 using GamesMarket.Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -16,7 +18,7 @@ namespace GamesMarket.Api.Controllers
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IConfiguration _configuration;
+        private readonly AppSettings _appSettings;
         private readonly IUserService _userService;
         private readonly ILogger _logger;
         private readonly IMapper _mapper;
@@ -24,7 +26,7 @@ namespace GamesMarket.Api.Controllers
         public AuthController(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            IConfiguration configuration,
+            IOptions<AppSettings> appSettings,
             IUserService userService,
             IMapper mapper,
             ILogger<AuthController> logger,
@@ -35,7 +37,7 @@ namespace GamesMarket.Api.Controllers
             _userManager = userManager;
             _mapper = mapper;
             _userService = userService;
-            _configuration = configuration;
+            _appSettings = appSettings.Value;
             _logger = logger;
         }
 
@@ -101,7 +103,6 @@ namespace GamesMarket.Api.Controllers
             var claims = await _userManager.GetClaimsAsync(user);
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            claims.Add(new Claim("userName", user.UserName));
             claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.Id));
             claims.Add(new Claim(JwtRegisteredClaimNames.Email, user.Email));
             claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
@@ -112,19 +113,36 @@ namespace GamesMarket.Api.Controllers
                 claims.Add(new Claim("role", userRole));
             }
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var identityClaims = new ClaimsIdentity();
+            identityClaims.AddClaims(claims);
 
-            var expiration = DateTime.UtcNow.AddHours(2);
-
-            var token = new JwtSecurityToken(issuer: null, audience: null, claims: claims,
-                expires: expiration, signingCredentials: creds);
-
-            return new AuthenticationResponseDto()
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var token = tokenHandler.CreateToken(new SecurityTokenDescriptor
             {
-                Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = expiration
+                Issuer = _appSettings.Issuer,
+                Audience = _appSettings.Audience,
+                Subject = identityClaims,
+                Expires = DateTime.UtcNow.AddHours(_appSettings.ExpirationHours),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            });
+
+            var encodedToken = tokenHandler.WriteToken(token);
+
+            var response = new AuthenticationResponseDto
+            {
+                AccessToken = encodedToken,
+                ExpiresIn = TimeSpan.FromHours(_appSettings.ExpirationHours).TotalSeconds,
+                UserToken = new UserTokenDto
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    UserName = user.UserName,
+                    Claims = claims.Select(c => new ClaimDto { Type = c.Type, Value = c.Value })
+                }
             };
+
+            return response;
         }
 
         private static long ToUnixEpochDate(DateTime date)

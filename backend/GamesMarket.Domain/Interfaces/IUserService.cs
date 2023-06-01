@@ -2,9 +2,8 @@
 
 namespace GamesMarket.Domain.Interfaces
 {
-    public interface IUserService
+    public interface IUserService : IDisposable
     {
-        Task<User> GetUserById(Guid id);
         Task CreateUser(User user);
         Task UpdateUser(User user);
         Task RemoveUser(Guid id);

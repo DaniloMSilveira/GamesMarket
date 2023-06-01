@@ -12,10 +12,6 @@ namespace GamesMarket.Domain.Services
         {
             _repository = repository;
         }
-        public async Task<User> GetUserById(Guid id)
-        {
-            return await _repository.GetById(id);
-        }
 
         public async Task CreateUser(User user)
         {
@@ -32,5 +28,9 @@ namespace GamesMarket.Domain.Services
             await _repository.Remove(id);
         }
 
+        public void Dispose()
+        {
+            _repository?.Dispose();
+        }
     }
 }
