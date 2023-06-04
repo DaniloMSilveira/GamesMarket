@@ -5,17 +5,18 @@ import { ToastrService } from 'ngx-toastr';
 
 import { AuthenticationResponse, UserCredentials } from '../../models/auth.models';
 import { AuthService } from '../../services/auth.service';
+import { GenericValidatorComponent } from 'src/app/shared/components/generic-validator.component';
 
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  templateUrl: './login.component.html'
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent extends GenericValidatorComponent implements OnInit {
 
   form: FormGroup;
   errors: string[] = [];
+  passwordHide: boolean = true;
   returnUrl: string;
 
   constructor(
@@ -24,19 +25,32 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    super();
+
+    this.validationMessages = {
+      userName: {
+        required: 'The field is required',
+        minlength: 'The field must be between 6 and 15 characters'
+      },
+      password: {
+        required: 'The field is required'
+      }
+    };
+  }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      userName: ['', {
-        validators: [Validators.required]
-      }],
-      password: ['', {
-        validators: [Validators.required]
-      }]
+      userName: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required]]
     });
 
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
+  }
+
+  toggleHidePassword(event) {
+    event.preventDefault();
+    this.passwordHide = !this.passwordHide;
   }
 
   login(userCredentials: UserCredentials) {

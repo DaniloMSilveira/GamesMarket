@@ -1,11 +1,12 @@
-export interface UserCredentials{
+export interface UserCredentials {
     userName: string;
     password: string;
 }
 
 export interface AuthenticationResponse{
-    token: string;
-    expiration: Date;
+    accessToken: string;
+    expiresIn: Date;
+    userToken: UserTokenDto;
 }
 
 export type RegisterDto = {
@@ -13,4 +14,16 @@ export type RegisterDto = {
     userName: string;
     email: string;
     password: string;
+}
+
+interface UserTokenDto {
+    id: string;
+    userName: string;
+    email: string;
+    claims: ClaimDto[];
+}
+
+type ClaimDto = {
+    type: string;
+    value: string;
 }

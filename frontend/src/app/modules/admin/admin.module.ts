@@ -8,7 +8,7 @@ import { AdminRoutingModule } from "./admin.route";
 import { AdminAppComponent } from "./admin.app.component";
 import { UsersTableComponent } from "./components/users-table/users-table.component";
 
-import { MaterialModule } from "src/app/shared/material/material.module";
+import { MaterialModule } from "src/app/material.module";
 import { AdminService } from './services/admin.service';
 
 import { CreateUserComponent } from './components/create-user/create-user.component';

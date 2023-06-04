@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 // Material
-import { MaterialModule } from './shared/material/material.module';
+import { MaterialModule } from './material.module';
 
 // Interceptors
 import { ErrorInterceptor } from './shared/services/error-handler.service';

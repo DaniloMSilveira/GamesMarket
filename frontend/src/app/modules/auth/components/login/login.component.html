@@ -1,26 +1,39 @@
-<mat-card>
-  <mat-card-header>
+<mat-card class="w-96 md:w-128">
+  <mat-card-header class="flex mb-4 justify-center">
     <mat-card-title>Login</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <form (submit)="login(form.value)" [formGroup]="form">
+    <form class="flex flex-col" (keydown.enter)="$event.preventDefault()" [formGroup]="form">
       <mat-form-field appearance="outline">
           <mat-label>Username</mat-label>
-          <input formControlName="userName" matInput />
-          <mat-error>The field Username is required</mat-error>
+          <input formControlName="userName" #input maxlength="15" matInput />
+          <mat-error>{{ getErrorMessage(form, "userName") }}</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
           <mat-label>Password</mat-label>
-          <input type="password" formControlName="password" matInput />
-          <mat-error>The field Password is required</mat-error>
+          <input [type]="passwordHide ? 'password' : 'text'" formControlName="password" matInput />
+          <button 
+            mat-icon-button 
+            matSuffix
+            (click)="toggleHidePassword($event)"
+            >
+              <mat-icon>{{passwordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error>{{ getErrorMessage(form, "password") }}</mat-error>
       </mat-form-field>
       <div>
         <app-display-errors [errors]="errors"></app-display-errors>
-        <button mat-flat-button color="primary" [disabled]="form.invalid">
+        <button 
+          class="w-full" 
+          mat-flat-button 
+          color="primary" 
+          [disabled]="form.invalid"
+          (click)="login(form.value)"
+        >
           Login
         </button>
-        <div style="margin-top: 20px; text-align: right;">
-            Don't have an account? Click here to <a [routerLink]="['/auth/register']" >register</a>
+        <div class="mt-4 text-right">
+            Don't have an account? Click here to <a class="text-blue-500 hover:text-blue-800 hover:underline" [routerLink]="['/auth/register']" >register</a>
         </div>
       </div>
     </form>

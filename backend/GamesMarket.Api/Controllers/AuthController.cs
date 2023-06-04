@@ -118,12 +118,13 @@ namespace GamesMarket.Api.Controllers
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var expiresIn = DateTime.UtcNow.AddHours(_appSettings.ExpirationHours);
             var token = tokenHandler.CreateToken(new SecurityTokenDescriptor
             {
                 Issuer = _appSettings.Issuer,
                 Audience = _appSettings.Audience,
                 Subject = identityClaims,
-                Expires = DateTime.UtcNow.AddHours(_appSettings.ExpirationHours),
+                Expires = expiresIn,
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             });
 
@@ -132,7 +133,7 @@ namespace GamesMarket.Api.Controllers
             var response = new AuthenticationResponseDto
             {
                 AccessToken = encodedToken,
-                ExpiresIn = TimeSpan.FromHours(_appSettings.ExpirationHours).TotalSeconds,
+                ExpiresIn = expiresIn,
                 UserToken = new UserTokenDto
                 {
                     Id = user.Id,

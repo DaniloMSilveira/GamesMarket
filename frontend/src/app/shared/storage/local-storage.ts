@@ -14,18 +14,28 @@ export class LocalStorageUtils {
         const dataToken = JSON.parse(atob(token.split('.')[1]));
         return dataToken[field];
     }
+
+    getFieldFromUserInfo(field: string): string {
+        let userInfo = localStorage.getItem('gamesmarket.userInfo');
+        if (!userInfo) return '';
+
+        userInfo = JSON.parse(userInfo);
+        return userInfo[field];
+    }
     
-    public setTokenInfo(token: string, tokenExpiration: string) {
+    public setTokenInfo(token: string, tokenExpiration: string, userInfo: string) {
         localStorage.setItem('gamesmarket.token', token);
         localStorage.setItem('gamesmarket.tokenExpiration', tokenExpiration);
+        localStorage.setItem('gamesmarket.userInfo', userInfo);
     }
 
     public getUserName(): string {
-        return this.getFieldFromToken('userName');
+        // return this.getFieldFromToken('userName');
+        return this.getFieldFromUserInfo('userName');
     }
     
     public getRole(): string {
-        return this.getFieldFromToken('role');
+        return this.getFieldFromToken('profile');
     }
     
     public isAuthenticated(): boolean{
@@ -48,6 +58,6 @@ export class LocalStorageUtils {
     public removeUserInfo() {
         localStorage.removeItem('gamesmarket.token');
         localStorage.removeItem('gamesmarket.tokenExpiration');
-        localStorage.removeItem('gamesmarket.user');
+        localStorage.removeItem('gamesmarket.userInfo');
     }
 }

@@ -41,8 +41,9 @@ export class AuthService extends BaseService {
 
   saveToken(authenticationResponse: AuthenticationResponse) {
     this.localStorageUtils.setTokenInfo(
-      authenticationResponse.token,
-      authenticationResponse.expiration.toString()
+      authenticationResponse.accessToken,
+      authenticationResponse.expiresIn.toString(),
+      JSON.stringify(authenticationResponse.userToken)
     );
   }
 }

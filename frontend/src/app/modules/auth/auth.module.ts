@@ -8,7 +8,7 @@ import { AuthRoutingModule } from "./auth.route";
 
 import { AuthService } from "./services/auth.service";
 
-import { MaterialModule } from "src/app/shared/material/material.module";
+import { MaterialModule } from "src/app/material.module";
 import { DisplayErrorsComponent } from "src/app/shared/components/display-errors/display-errors.component";
 
 import { AuthenticationFormComponent } from "./components/authentication-form/authentication-form.component";

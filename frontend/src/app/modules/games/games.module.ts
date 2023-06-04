@@ -4,7 +4,7 @@ import { RouterModule } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { MaterialModule } from "src/app/shared/material/material.module";
+import { MaterialModule } from "src/app/material.module";
 import { GamesRoutingModule } from "./games.route";
 import { GamesService } from "./services/games.service";
 

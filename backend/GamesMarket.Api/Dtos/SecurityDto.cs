@@ -14,7 +14,7 @@ namespace GamesMarket.Api.Dtos
     public class AuthenticationResponseDto
     {
         public string AccessToken { get; set; }
-        public double ExpiresIn { get; set; }
+        public DateTime ExpiresIn { get; set; }
         public UserTokenDto UserToken { get; set; }
     }
 
