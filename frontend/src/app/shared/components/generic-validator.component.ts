@@ -11,7 +11,6 @@ export abstract class GenericValidatorComponent {
         if (!field.errors) return '';
     
         for (const validation in fieldValidations) {
-          console.log(validation)
           if (field.errors[validation]){
             return fieldValidations[validation];
           }

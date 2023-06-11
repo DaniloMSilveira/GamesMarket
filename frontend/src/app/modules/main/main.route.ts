@@ -18,12 +18,12 @@ const routerConfig: Routes = [
                 loadChildren: () => import('../admin/admin.module')
                     .then(m => m.AdminModule)
             },
-            // { 
-            //     path: 'games',
-            //     loadChildren: () => import('../games/games.module')
-            //         .then(m => m.GamesModule)
-            // },
-            { path: '403', component: UnauthorizedComponent },
+            {
+                path: 'publishers',
+                loadChildren: () => import('../publisher/publisher.module')
+                    .then(m => m.PublisherModule)
+            },
+            { path: 'access-denied', component: UnauthorizedComponent },
             { path: '404', component: NotFoundComponent },
             { path: '500', component: InternalErrorComponent },
         ]

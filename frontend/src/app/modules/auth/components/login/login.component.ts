@@ -16,7 +16,6 @@ export class LoginComponent extends GenericValidatorComponent implements OnInit 
 
   form: FormGroup;
   errors: string[] = [];
-  passwordHide: boolean = true;
   returnUrl: string;
 
   constructor(
@@ -46,11 +45,6 @@ export class LoginComponent extends GenericValidatorComponent implements OnInit 
     });
 
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'];
-  }
-
-  toggleHidePassword(event) {
-    event.preventDefault();
-    this.passwordHide = !this.passwordHide;
   }
 
   login(userCredentials: UserCredentials) {

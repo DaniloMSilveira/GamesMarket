@@ -3,56 +3,58 @@
         <mat-card-title>Register</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-    <form class="flex flex-col" (keydown.enter)="$event.preventDefault()" [formGroup]="form">
-        <mat-form-field appearance="outline">
-            <mat-label>Name</mat-label>
-            <input formControlName="name" matInput />
-            <mat-error>{{ getErrorMessage(form, "name") }}</mat-error>
-        </mat-form-field>
-        <div class="flex flex-col md:flex-row justify-between gap-4">
-            <mat-form-field class="w-auto md:w-5/12" appearance="outline">
-                <mat-label>Username</mat-label>
-                <input formControlName="userName" #input maxlength="15" matInput />
-                <mat-hint>{{input.value?.length === 0 ? "" : "Total caracters: " + input.value?.length + "/15"}}</mat-hint>
-                <mat-error>{{ getErrorMessage(form, "userName") }}</mat-error>
+    <form (keydown.enter)="$event.preventDefault()" [formGroup]="form">
+        <div class="flex flex-col" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
+            <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input formControlName="name" matInput />
+                <mat-error>{{ getErrorMessage(form, "name") }}</mat-error>
             </mat-form-field>
-            <mat-form-field class="w-auto md:w-7/12" appearance="outline">
-                <mat-label>Email</mat-label>
-                <input formControlName="email" placeholder="Ex. test@example.com" matInput />
-                <mat-error>{{ getErrorMessage(form, "email") }}</mat-error>
-            </mat-form-field>
-        </div>
-        <div class="flex flex-col md:flex-row justify-between gap-4">
-            <mat-form-field class="w-auto md:w-1/2" appearance="outline">
-                <mat-label>Password</mat-label>
-                <input [type]="passwordHide ? 'password' : 'text'" formControlName="password" matInput />
-                <button mat-icon-button matSuffix (click)="toggleHidePassword($event)" [attr.aria-label]="'Hide'" [attr.aria-pressed]="passwordHide">
-                    <mat-icon>{{passwordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <div class="flex flex-col md:flex-row justify-between gap-4">
+                <mat-form-field class="w-auto md:w-5/12" appearance="outline">
+                    <mat-label>Username</mat-label>
+                    <input formControlName="userName" #input maxlength="15" matInput />
+                    <mat-hint>{{input.value?.length === 0 ? "" : "Total caracters: " + input.value?.length + "/15"}}</mat-hint>
+                    <mat-error>{{ getErrorMessage(form, "userName") }}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="w-auto md:w-7/12" appearance="outline">
+                    <mat-label>Email</mat-label>
+                    <input formControlName="email" placeholder="Ex. test@example.com" matInput />
+                    <mat-error>{{ getErrorMessage(form, "email") }}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between gap-4">
+                <mat-form-field class="w-auto md:w-1/2" appearance="outline">
+                    <mat-label>Password</mat-label>
+                    <input [type]="passwordHide ? 'password' : 'text'" formControlName="password" matInput />
+                    <button mat-icon-button tabindex="-1" matSuffix (click)="toggleHidePassword($event)" [attr.aria-label]="'Hide'" [attr.aria-pressed]="passwordHide">
+                        <mat-icon>{{passwordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error>{{ getErrorMessage(form, "password") }}</mat-error>
+                </mat-form-field>
+                <mat-form-field class="w-auto md:w-1/2" appearance="outline">
+                    <mat-label>Confirm Password</mat-label>
+                    <input [type]="confirmPasswordHide ? 'password' : 'text'" formControlName="confirmPassword" matInput />
+                    <button mat-icon-button tabindex="-1" matSuffix (click)="toggleHideConfirmPassword($event)" [attr.aria-label]="'Hide'" [attr.aria-pressed]="confirmPasswordHide">
+                        <mat-icon>{{confirmPasswordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    </button>
+                    <mat-error>{{ getErrorMessage(form, "confirmPassword") }}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="mt-4">
+                <app-display-errors [errors]="errors"></app-display-errors>
+                <button 
+                    class="w-full" 
+                    mat-flat-button 
+                    color="primary" 
+                    [disabled]="form.invalid"
+                    (click)="register(form.value)"
+                >
+                    Register
                 </button>
-                <mat-error>{{ getErrorMessage(form, "password") }}</mat-error>
-            </mat-form-field>
-            <mat-form-field class="w-auto md:w-1/2" appearance="outline">
-                <mat-label>Confirm Password</mat-label>
-                <input [type]="confirmPasswordHide ? 'password' : 'text'" formControlName="confirmPassword" matInput />
-                <button mat-icon-button matSuffix (click)="toggleHideConfirmPassword($event)" [attr.aria-label]="'Hide'" [attr.aria-pressed]="confirmPasswordHide">
-                    <mat-icon>{{confirmPasswordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-                <mat-error>{{ getErrorMessage(form, "confirmPassword") }}</mat-error>
-            </mat-form-field>
-        </div>
-        <div class="mt-4">
-            <app-display-errors [errors]="errors"></app-display-errors>
-            <button 
-                class="w-full" 
-                mat-flat-button 
-                color="primary" 
-                [disabled]="form.invalid"
-                (click)="register(form.value)"
-            >
-                Register
-            </button>
-            <div class="mt-4 text-right">
-                You already have an account? Click here to <a class="text-blue-500 hover:text-blue-800 hover:underline" [routerLink]="['/auth/login']" >login</a>
+                <div class="mt-4 text-right">
+                    You already have an account? Click here to <a class="text-blue-500 hover:text-blue-800 hover:underline" [routerLink]="['/auth/login']" >login</a>
+                </div>
             </div>
         </div>
     </form>

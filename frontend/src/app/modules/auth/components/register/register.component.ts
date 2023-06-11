@@ -47,7 +47,7 @@ export class RegisterComponent extends GenericValidatorComponent implements OnIn
         equalTo: 'The field is not equal to password'
       }
     };
-   }
+  }
 
   form: FormGroup
   errors: string[] = [];

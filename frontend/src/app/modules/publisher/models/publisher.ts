@@ -1,5 +1,5 @@
-import { Endereco } from './address';
-import { Produto } from 'src/app/produto/models/produto';
+import { Address } from './address';
+import { Game } from 'src/app/modules/games/models/games.model';
 
 export class Publisher {
     id: string;
@@ -7,7 +7,7 @@ export class Publisher {
     documento: string;
     ativo: boolean;
     tipoPublisher: number;
-    endereco: Endereco;
-    produtos: Produto[]
+    address: Address;
+    produtos: Game[];
 }
 

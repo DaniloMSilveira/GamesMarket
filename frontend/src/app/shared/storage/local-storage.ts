@@ -22,6 +22,13 @@ export class LocalStorageUtils {
         userInfo = JSON.parse(userInfo);
         return userInfo[field];
     }
+
+    getUserInfo() {
+        let userInfo = localStorage.getItem('gamesmarket.userInfo');
+        if (!userInfo) return null;
+
+        return JSON.parse(userInfo);
+    }
     
     public setTokenInfo(token: string, tokenExpiration: string, userInfo: string) {
         localStorage.setItem('gamesmarket.token', token);

@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router, CanDeactivate } from '@angular/router';
-import { NovoComponent } from '../novo/novo.component';
-import { BaseGuard } from 'src/app/services/base.guard';
+
+import { BaseGuard } from 'src/app/shared/guards/base.guard';
+
+import { PublisherCreateComponent } from '../components/create/publisher-create.component';
 
 @Injectable()
-export class FornececedorGuard extends BaseGuard implements CanActivate, CanDeactivate<NovoComponent> {
+export class FornececedorGuard extends BaseGuard implements CanActivate, CanDeactivate<PublisherCreateComponent> {
 
     constructor(protected override router: Router) { super(router); }
 
-    canDeactivate(component: NovoComponent) {
+    canDeactivate(component: PublisherCreateComponent) {
         if(component.mudancasNaoSalvas) {
             return window.confirm('Tem certeza que deseja abandonar o preenchimento do formulario?');
         }        

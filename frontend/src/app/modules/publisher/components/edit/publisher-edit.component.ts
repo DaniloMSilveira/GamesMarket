@@ -174,7 +174,7 @@ export class EditarComponent extends FormBaseComponent implements OnInit {
 
   buscarCep(cep: string) {
 
-    cep = StringUtils.somenteNumeros(cep);
+    cep = StringUtils.onlyNumbers(cep);
     if (cep.length < 8) return;
 
     this.publisherService.consultarCep(cep)
@@ -199,7 +199,7 @@ export class EditarComponent extends FormBaseComponent implements OnInit {
     if (this.publisherForm.dirty && this.publisherForm.valid) {
 
       this.publisher = Object.assign({}, this.publisher, this.publisherForm.value);
-      this.publisher.documento = StringUtils.somenteNumeros(this.publisher.documento);
+      this.publisher.documento = StringUtils.onlyNumbers(this.publisher.documento);
 
       /* Workaround para evitar cast de string para int no back-end */
       this.publisher.tipoPublisher = parseInt(this.publisher.tipoPublisher.toString());
@@ -233,7 +233,7 @@ export class EditarComponent extends FormBaseComponent implements OnInit {
 
       this.endereco = Object.assign({}, this.endereco, this.enderecoForm.value);
 
-      this.endereco.cep = StringUtils.somenteNumeros(this.endereco.cep);
+      this.endereco.cep = StringUtils.onlyNumbers(this.endereco.cep);
       this.endereco.publisherId = this.publisher.id;
 
       this.publisherService.atualizarEndereco(this.endereco)

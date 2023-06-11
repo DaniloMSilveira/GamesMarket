@@ -14,6 +14,7 @@ import { DisplayErrorsComponent } from "src/app/shared/components/display-errors
 import { AuthenticationFormComponent } from "./components/authentication-form/authentication-form.component";
 import { LoginComponent } from "./components/login/login.component";
 import { RegisterComponent } from "./components/register/register.component";
+import { A11yModule } from "@angular/cdk/a11y";
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { RegisterComponent } from "./components/register/register.component";
       MaterialModule,
       FormsModule,
       ReactiveFormsModule,
-      HttpClientModule
+      HttpClientModule,
+      A11yModule
     ],
     providers: [
       AuthService

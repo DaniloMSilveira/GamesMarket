@@ -3,24 +3,20 @@
     <mat-card-title>Login</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <form class="flex flex-col" (keydown.enter)="$event.preventDefault()" [formGroup]="form">
-      <mat-form-field appearance="outline">
+    <form [formGroup]="form">
+      <div class="flex flex-col" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
+        <mat-form-field appearance="outline">
           <mat-label>Username</mat-label>
-          <input formControlName="userName" #input maxlength="15" matInput />
+          <input formControlName="userName" #input maxlength="15" matInput/>
           <mat-error>{{ getErrorMessage(form, "userName") }}</mat-error>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-          <mat-label>Password</mat-label>
-          <input [type]="passwordHide ? 'password' : 'text'" formControlName="password" matInput />
-          <button 
-            mat-icon-button 
-            matSuffix
-            (click)="toggleHidePassword($event)"
-            >
-              <mat-icon>{{passwordHide ? 'visibility_off' : 'visibility'}}</mat-icon>
-          </button>
-          <mat-error>{{ getErrorMessage(form, "password") }}</mat-error>
-      </mat-form-field>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+            <mat-label>Password</mat-label>
+            <input type="password" formControlName="password" matInput/>
+            <mat-error>{{ getErrorMessage(form, "password") }}</mat-error>
+        </mat-form-field>
+      </div>
+      
       <div>
         <app-display-errors [errors]="errors"></app-display-errors>
         <button 

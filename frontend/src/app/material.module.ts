@@ -21,6 +21,7 @@ import { MatPaginatorModule } from '@angular/material/paginator'
 import { MatChipsModule } from '@angular/material/chips'
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [],
@@ -44,7 +45,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatPaginatorModule,
     MatChipsModule,
     MatSortModule,
-    MatDialogModule
+    MatDialogModule,
+    MatRadioModule
   ],
   imports: [
     CommonModule

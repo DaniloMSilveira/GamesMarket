@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { PublisherService } from '../services/publisher.service';
-import { Publisher } from '../models/publisher';
+import { PublisherService } from '../../services/publisher.service';
+import { Publisher } from '../../models/publisher';
 
 @Component({
-  selector: 'app-lista',
-  templateUrl: './lista.component.html'
+  selector: 'app-publisher-list',
+  templateUrl: './publisher-list.component.html'
 })
-export class ListaComponent implements OnInit {
+export class PublisherListComponent implements OnInit {
 
-  public publisheres: Publisher[];
+  public publishers: Publisher[];
   errorMessage: string;
 
   constructor(private publisherService: PublisherService) { }
@@ -16,7 +16,7 @@ export class ListaComponent implements OnInit {
   ngOnInit(): void {
     this.publisherService.obterTodos()
       .subscribe(
-        publisheres => this.publisheres = publisheres,
+        publishers => this.publishers = publishers,
         error => this.errorMessage);
   }
 }

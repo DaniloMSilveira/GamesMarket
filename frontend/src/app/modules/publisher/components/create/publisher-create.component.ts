@@ -1,184 +1,153 @@
-import { Component, OnInit, ViewChildren, ElementRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControlName, AbstractControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
 import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { utilsBr } from 'js-brasil';
 
-import { Publisher } from '../models/publisher';
-import { PublisherService } from '../services/publisher.service';
-import { CepSearch } from '../models/address';
-import { StringUtils } from 'src/app/utils/string-utils';
-import { FormBaseComponent } from 'src/app/base-components/form-base.component';
+import { CEPJValidator, CNPJValidator, CPFValidator } from 'src/app/shared/validators/brazil';
+import { StringUtils } from 'src/app/shared/utils/string-utils';
+
+import { PublisherService } from '../../services/publisher.service';
+
+import { CepDetails, EstadosList } from '../../models/address';
+
+
+import { GenericValidatorComponent } from 'src/app/shared/components/generic-validator.component';
 
 @Component({
-  selector: 'app-novo',
-  templateUrl: './novo.component.html'
+  selector: 'app-publisher-create',
+  templateUrl: './publisher-create.component.html',
+  styleUrls: ['./publisher-create.component.scss']
 })
-export class NovoComponent extends FormBaseComponent implements OnInit {
+export class PublisherCreateComponent extends GenericValidatorComponent implements OnInit {
 
-  @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
-
-  errors: any[] = [];
-  publisherForm: FormGroup;
-  publisher: Publisher = new Publisher();
-
-  textoDocumento: string = 'CPF (requerido)';
-  formResult: string = '';
-  
-  constructor(private fb: FormBuilder,
+  constructor(
+    private toastr: ToastrService,
+    private formbuilder: FormBuilder,
     private publisherService: PublisherService,
     private router: Router,
-    private toastr: ToastrService) {
-
+    private spinner: NgxSpinnerService
+  ) {
     super();
 
     this.validationMessages = {
-      nome: {
-        required: 'Informe o Nome',
-      },
-      documento: {
-        required: 'Informe o Documento',
-        cpf: 'CPF em formato inválido',
-        cnpj: 'CNPJ em formato inválido'
-      },
-      logradouro: {
-        required: 'Informe o Logradouro',
-      },
-      numero: {
-        required: 'Informe o Número',
-      },
-      bairro: {
-        required: 'Informe o Bairro',
-      },
-      cep: {
-        required: 'Informe o CEP',
-        cep: 'CEP em formato inválido'
-      },
-      cidade: {
-        required: 'Informe a Cidade',
-      },
-      estado: {
-        required: 'Informe o Estado',
+      name: {
+        required: 'The field is required'
       }
     };
-
-    super.configurarMensagensValidacaoBase(this.validationMessages);
   }
+
+  form: FormGroup
+  errors: string[] = [];
+
+  // 99999-999
+  cepMask = { mask: [/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/] }
+  estados = EstadosList;
+
+  textDocument: string = 'CPF';
+  documentMask = { mask: utilsBr.MASKS.cpf.textMask }
+
+  mudancasNaoSalvas: boolean = false;
 
   ngOnInit() {
 
-    this.publisherForm = this.fb.group({
-      nome: ['', [Validators.required]],
-      documento: ['', [Validators.required]],
-      ativo: ['', [Validators.required]],
-      tipoPublisher: ['', [Validators.required]],
+    this.spinner.show();
 
-      endereco: this.fb.group({
+    this.form = this.formbuilder.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      document: ['', [Validators.required]],
+      typePerson: ['PF', [Validators.required]],
+      foundationDate: ['', [Validators.required]],
+
+      address: this.formbuilder.group({
         logradouro: ['', [Validators.required]],
         numero: ['', [Validators.required]],
         complemento: [''],
         bairro: ['', [Validators.required]],
-        cep: ['', [Validators.required]],
+        cep: ['', [Validators.required, CEPJValidator()]],
         cidade: ['', [Validators.required]],
         estado: ['', [Validators.required]]
       })
     });
 
-    this.publisherForm.patchValue({ tipoPublisher: '1', ativo: true });
+    this.spinner.hide();
   }
 
   ngAfterViewInit(): void {
-
-    this.tipoPublisherForm().valueChanges
+    this.changeDocumentValidation();
+    this.typePersonForm().valueChanges
       .subscribe(() => {
-        this.trocarValidacaoDocumento();
-        super.configurarValidacaoFormularioBase(this.formInputElements, this.publisherForm)
-        super.validarFormulario(this.publisherForm);
+        this.changeDocumentValidation();
       });
-
-      super.configurarValidacaoFormularioBase(this.formInputElements, this.publisherForm)
   }
     
-  trocarValidacaoDocumento() {
-    if (this.tipoPublisherForm().value === "1") {
-      this.documento().clearValidators();
-      this.documento().setValidators([Validators.required]);
-      this.textoDocumento = "CPF (requerido)";
+  changeDocumentValidation() {
+    if (this.typePersonForm().value === "PF") {
+      this.documentForm().clearValidators();
+      this.documentForm().setValidators([Validators.required, CPFValidator()]);
+      this.textDocument = "CPF";
+      this.documentMask = { mask: utilsBr.MASKS.cpf.textMask }
     }
     else {
-      this.documento().clearValidators();
-      this.documento().setValidators([Validators.required]);
-      this.textoDocumento = "CNPJ (requerido)";
+      this.documentForm().clearValidators();
+      this.documentForm().setValidators([Validators.required, CNPJValidator()]);
+      this.textDocument = "CNPJ";
+      this.documentMask = { mask: utilsBr.MASKS.cnpj.textMask }
     }
+    
+    this.form.patchValue({ document: '' });
   }
 
-  tipoPublisherForm(): AbstractControl {
-    return this.publisherForm.get('tipoPublisher');
+  typePersonForm(): AbstractControl {
+    return this.form.get('typePerson');
   }
 
-  documento(): AbstractControl {
-    return this.publisherForm.get('documento');
+  documentForm(): AbstractControl {
+    return this.form.get('document');
   }
 
-  buscarCep(cep: string) {
+  createPublisher() {
+    console.log('values:', this.form.value)
+  }
 
-    cep = StringUtils.somenteNumeros(cep);
+  searchCep() {
+    let cep = this.form.value.address.cep;
+    cep = StringUtils.onlyNumbers(cep);
     if (cep.length < 8) return;
 
+    this.spinner.show();
     this.publisherService.consultarCep(cep)
-      .subscribe(
-        cepRetorno => this.preencherEnderecoConsulta(cepRetorno),
-        erro => this.errors.push(erro));
+      .subscribe({
+        next: (result: CepDetails) => {
+          this.fillAddress(result);
+        },
+        error: (e) => {
+          this.toastr.error(
+            'Error searching by CEP. Please fill in the address fields', 
+            'Error CEP',
+          );
+        },
+      })
+      .add(() => this.spinner.hide());
   }
 
-  preencherEnderecoConsulta(cepSearch: CepSearch) {
+  fillAddress(cepDetails: CepDetails) {
+    if (cepDetails && cepDetails.erro) {
+      this.toastr.warning(
+        'CEP not found', 
+        'CEP not found',
+      );
+    }
 
-    this.publisherForm.patchValue({
-      endereco: {
-        logradouro: cepSearch.logradouro,
-        bairro: cepSearch.bairro,
-        cep: cepSearch.cep,
-        cidade: cepSearch.localidade,
-        estado: cepSearch.uf
+    this.form.patchValue({
+      address: {
+        logradouro: cepDetails.logradouro,
+        bairro: cepDetails.bairro,
+        cidade: cepDetails.localidade,
+        estado: cepDetails.uf
       }
     });
-  }
-
-  adicionarPublisher() {
-    if (this.publisherForm.dirty && this.publisherForm.valid) {
-
-      this.publisher = Object.assign({}, this.publisher, this.publisherForm.value);
-      this.formResult = JSON.stringify(this.publisher);
-
-      this.publisher.endereco.cep = StringUtils.somenteNumeros(this.publisher.endereco.cep);
-      this.publisher.documento = StringUtils.somenteNumeros(this.publisher.documento);
-      // forçando o tipo publisher ser serializado como INT
-      this.publisher.tipoPublisher = parseInt(this.publisher.tipoPublisher.toString());
-
-      this.publisherService.novoPublisher(this.publisher)
-        .subscribe(
-          sucesso => { this.processarSucesso(sucesso) },
-          falha => { this.processarFalha(falha) }
-        );
-    }
-  }
-
-  processarSucesso(response: any) {
-    this.publisherForm.reset();
-    this.errors = [];
-
-    this.mudancasNaoSalvas = false;
-
-    let toast = this.toastr.success('Publisher cadastrado com sucesso!', 'Sucesso!');
-    if (toast) {
-      toast.onHidden.subscribe(() => {
-        this.router.navigate(['/publisheres/listar-todos']);
-      });
-    }
-  }
-
-  processarFalha(fail: any) {
-    this.errors = fail.error.errors;
-    this.toastr.error('Ocorreu um erro!', 'Opa :(');
   }
 }

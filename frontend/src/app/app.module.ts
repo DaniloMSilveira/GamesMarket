@@ -1,7 +1,9 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -15,6 +17,7 @@ import { MaterialModule } from './material.module';
 // Interceptors
 import { ErrorInterceptor } from './shared/services/error-handler.service';
 
+registerLocaleData(localePt);
 
 @NgModule({
   declarations: [
@@ -33,6 +36,7 @@ import { ErrorInterceptor } from './shared/services/error-handler.service';
     })
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
