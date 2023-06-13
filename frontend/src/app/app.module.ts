@@ -17,11 +17,21 @@ import { MaterialModule } from './material.module';
 // Interceptors
 import { ErrorInterceptor } from './shared/services/error-handler.service';
 
+// Errors
+import { ErrorCodeComponent } from "src/app/shared/components/errors/error-code/error-code.component";
+import { UnauthorizedComponent } from 'src/app/shared/components/errors/unauthorized.component';
+import { NotFoundComponent } from 'src/app/shared/components/errors/not-found.component';
+import { InternalErrorComponent } from 'src/app/shared/components/errors/internal.component';
+
 registerLocaleData(localePt);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ErrorCodeComponent,
+    UnauthorizedComponent,
+    NotFoundComponent,
+    InternalErrorComponent
   ],
   imports: [
     BrowserModule,

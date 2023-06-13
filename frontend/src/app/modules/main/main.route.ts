@@ -2,9 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 
-import { UnauthorizedComponent } from 'src/app/shared/components/errors/unauthorized.component';
-import { NotFoundComponent } from 'src/app/shared/components/errors/not-found.component';
-import { InternalErrorComponent } from 'src/app/shared/components/errors/internal.component';
 import { AdminGuard } from 'src/app/shared/guards/admin.guard';
 
 const routerConfig: Routes = [
@@ -22,10 +19,7 @@ const routerConfig: Routes = [
                 path: 'publishers',
                 loadChildren: () => import('../publisher/publisher.module')
                     .then(m => m.PublisherModule)
-            },
-            { path: 'access-denied', component: UnauthorizedComponent },
-            { path: '404', component: NotFoundComponent },
-            { path: '500', component: InternalErrorComponent },
+            }
         ]
     },
 ];

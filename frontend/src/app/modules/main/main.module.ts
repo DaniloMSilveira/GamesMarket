@@ -7,28 +7,24 @@ import { MaterialModule } from "src/app/material.module";
 import { MainRoutingModule } from "./main.route";
 
 import { AuthorizeViewComponent } from '../../shared/components/authorize-view/authorize-view.component';
-import { ErrorCodeComponent } from "src/app/shared/components/errors/error-code/error-code.component";
-import { UnauthorizedComponent } from 'src/app/shared/components/errors/unauthorized.component';
-import { NotFoundComponent } from 'src/app/shared/components/errors/not-found.component';
-import { InternalErrorComponent } from 'src/app/shared/components/errors/internal.component';
 
 import { HomeComponent } from "./components/home/home.component";
+import { BodyComponent } from "./components/body/body.component";
 import { MenuComponent } from "./components/menu/menu.component";
+import { SidenavComponent } from "./components/sidenav/sidenav.component";
+import { SublevelMenuComponent } from "./components/sidenav/sublevel-menu.component";
 import { UserMenuComponent } from "./components/menu/user-menu.component";
-import { AdminMenuComponent } from "./components/menu/admin-menu.component";
 
 
 @NgModule({
   declarations: [
     HomeComponent,
+    BodyComponent,
     MenuComponent,
+    SidenavComponent,
+    SublevelMenuComponent,
     UserMenuComponent,
-    AdminMenuComponent,
-    AuthorizeViewComponent,
-    ErrorCodeComponent,
-    UnauthorizedComponent,
-    NotFoundComponent,
-    InternalErrorComponent
+    AuthorizeViewComponent
   ],
   imports: [
     CommonModule,
