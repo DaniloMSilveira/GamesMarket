@@ -7,13 +7,12 @@ export const navbarData: INavbarData[] = [
         label: 'Home'
     },
     {
-        routeLink: 'cadastro',
+        routeLink: 'publishers',
         icon: 'edit_note',
         label: 'Cadastro',
         items: [
             {
-                // routeLink: 'publishers/list',
-                routeLink: 'publishers/create',
+                routeLink: 'publishers/list',
                 label: 'Publishers'
             },
             {

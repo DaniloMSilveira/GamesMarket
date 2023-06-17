@@ -13,9 +13,9 @@ export class PublisherService extends BaseService {
 
     constructor(private http: HttpClient) { super() }
 
-    obterTodos(): Observable<Publisher[]> {
+    getAll(): Observable<Publisher[]> {
         return this.http
-            .get<Publisher[]>(this.apiUrlV1 + "publishers")
+            .get<Publisher[]>(this.apiUrlV1 + "publishers", super.getAuthHeaders())
             .pipe(catchError(super.serviceError));
     }
 
@@ -25,7 +25,7 @@ export class PublisherService extends BaseService {
             .pipe(catchError(super.serviceError));
     }
 
-    novoPublisher(publisher: Publisher): Observable<Publisher> {
+    createPublisher(publisher: Publisher): Observable<Publisher> {
         return this.http
             .post(this.apiUrlV1 + "publishers", publisher, this.getAuthHeaders())
             .pipe(
@@ -41,12 +41,10 @@ export class PublisherService extends BaseService {
                 catchError(super.serviceError));
     }
 
-    excluirPublisher(id: string): Observable<Publisher> {
+    deletePublisher(id: string): Observable<Object> {
         return this.http
             .delete(this.apiUrlV1 + `publishers/${id}`, super.getAuthHeaders())
-            .pipe(
-                map(super.extractData),
-                catchError(super.serviceError));
+            .pipe(catchError(super.serviceError));
     }
 
     updateAddress(address: Address): Observable<Address> {

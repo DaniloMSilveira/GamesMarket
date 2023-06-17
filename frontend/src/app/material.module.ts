@@ -22,6 +22,7 @@ import { MatChipsModule } from '@angular/material/chips'
 import { MatSortModule } from '@angular/material/sort';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [],
@@ -46,7 +47,8 @@ import { MatRadioModule } from '@angular/material/radio';
     MatChipsModule,
     MatSortModule,
     MatDialogModule,
-    MatRadioModule
+    MatRadioModule,
+    MatDividerModule
   ],
   imports: [
     CommonModule

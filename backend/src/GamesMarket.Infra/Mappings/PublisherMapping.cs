@@ -18,6 +18,10 @@ namespace GamesMarket.Infra.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(200)");
 
+            builder.Property(p => p.TypePerson)
+                .IsRequired()
+                .HasColumnType("char(2)");
+
             builder.Property(p => p.Document)
                 .IsRequired()
                 .HasColumnType("varchar(14)");

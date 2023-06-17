@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamesMarket.Api", "GamesMarket.Api\GamesMarket.Api.csproj", "{4B56766F-C7CD-44FE-9BB2-C98015EFBF0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamesMarket.Api", "src\GamesMarket.Api\GamesMarket.Api.csproj", "{4B56766F-C7CD-44FE-9BB2-C98015EFBF0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamesMarket.Domain", "GamesMarket.Domain\GamesMarket.Domain.csproj", "{9D54E7E3-103A-4975-B78F-A2873AF4CF54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamesMarket.Domain", "src\GamesMarket.Domain\GamesMarket.Domain.csproj", "{9D54E7E3-103A-4975-B78F-A2873AF4CF54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GamesMarket.Infra", "GamesMarket.Infra\GamesMarket.Infra.csproj", "{CB6C1AF0-8AE5-4DD0-BC05-112132C77B57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GamesMarket.Infra", "src\GamesMarket.Infra\GamesMarket.Infra.csproj", "{CB6C1AF0-8AE5-4DD0-BC05-112132C77B57}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{066AF954-2558-49B7-B3F5-9CE01CFB8BB8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +32,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4B56766F-C7CD-44FE-9BB2-C98015EFBF0C} = {066AF954-2558-49B7-B3F5-9CE01CFB8BB8}
+		{9D54E7E3-103A-4975-B78F-A2873AF4CF54} = {066AF954-2558-49B7-B3F5-9CE01CFB8BB8}
+		{CB6C1AF0-8AE5-4DD0-BC05-112132C77B57} = {066AF954-2558-49B7-B3F5-9CE01CFB8BB8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {929F9859-F30A-49EC-9A31-68E7203D1F73}

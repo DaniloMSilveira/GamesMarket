@@ -1,5 +1,4 @@
-﻿using GamesMarket.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace GamesMarket.Api.Dtos
 {
@@ -21,7 +20,8 @@ namespace GamesMarket.Api.Dtos
         [StringLength(14, ErrorMessage = "O campo {0} precisa ter entre {2} e {1} caracteres", MinimumLength = 11)]
         public string Document { get; set; }
 
-        public int TypePerson { get; set; }
+        [Required(ErrorMessage = "O campo {0} é obrigatório")]
+        public string TypePerson { get; set; }
 
         [Required]
         public string FoundationDate { get; set; }
@@ -51,7 +51,7 @@ namespace GamesMarket.Api.Dtos
         public string Document { get; set; }
 
         [Required]
-        public TypePerson TypePerson { get; set; }
+        public string TypePerson { get; set; }
 
         [Required]
         public string FoundationDate { get; set; }
@@ -63,7 +63,7 @@ namespace GamesMarket.Api.Dtos
         public string Name { get; set; }
         public string Email { get; set; }
         public string Document { get; set; }
-        public TypePerson TypePerson { get; set; }
+        public string TypePerson { get; set; }
         public string FoundationDate { get; set; }
         public AddressDto Address { get; set; }
         public bool Ativo { get; set; }

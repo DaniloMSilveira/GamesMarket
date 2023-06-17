@@ -60,7 +60,7 @@ export class LoginComponent extends GenericValidatorComponent implements OnInit 
           );
           this.returnUrl
             ? this.router.navigate([this.returnUrl])
-            : this.router.navigate(['/home']);
+            : this.router.navigate(['/']);
         },
         error: (e) => {
           if (e.error && e.error.errors) {

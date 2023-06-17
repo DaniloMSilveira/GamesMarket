@@ -91,7 +91,7 @@ export class RegisterComponent extends GenericValidatorComponent implements OnIn
             "You've successfully registered",
             'Welcome'
           );
-          this.router.navigate(['/home']);
+          this.router.navigate(['/']);
         },
         error: (e) => {
           if (e.error && e.error.errors) {

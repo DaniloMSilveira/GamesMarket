@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using GamesMarket.Domain.Entities;
-using GamesMarket.Domain.Enums;
 using GamesMarket.Domain.Utils;
 
 namespace DevIO.Business.Models.Validations
@@ -14,7 +13,12 @@ namespace DevIO.Business.Models.Validations
                 .Length(2, 100)
                 .WithMessage("O campo {PropertyName} precisa ter entre {MinLength} e {MaxLength} caracteres");
 
-            When(f => f.TypePerson == TypePerson.Person, () =>
+            var types = new List<string>() { "PF", "PJ" };
+            RuleFor(f => f.TypePerson)
+                .Must(x => types.Contains(x))
+                .WithMessage("O campo {PropertyName} precisa ser preenchido como PF ou PJ");
+
+            When(f => f.TypePerson == "PF", () =>
             {
                 RuleFor(f => f.Document.Length).Equal(CpfValidacao.TamanhoCpf)
                     .WithMessage("O campo Documento precisa ter {ComparisonValue} caracteres e foi fornecido {PropertyValue}.");
@@ -22,7 +26,7 @@ namespace DevIO.Business.Models.Validations
                     .WithMessage("O documento fornecido é inválido.");
             });
 
-            When(f => f.TypePerson == TypePerson.Entity, () =>
+            When(f => f.TypePerson == "PJ", () =>
             {
                 RuleFor(f => f.Document.Length).Equal(CnpjValidacao.TamanhoCnpj)
                     .WithMessage("O campo Documento precisa ter {ComparisonValue} caracteres e foi fornecido {PropertyValue}.");

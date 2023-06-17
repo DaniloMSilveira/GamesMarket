@@ -4,13 +4,14 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { FormsModule, ReactiveFormsModule }  from '@angular/forms';
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgxSpinnerModule } from "ngx-spinner";
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 import { MaterialModule } from 'src/app/material.module';
 import { PublisherRoutingModule } from './publisher.route';
 import { PublisherAppComponent } from './publisher.app.component';
 import { PublisherService } from './services/publisher.service';
 
-// import { PublisherListComponent } from './components/list/publisher-list.component';
+import { PublisherListComponent } from './components/list/publisher-list.component';
 import { PublisherCreateComponent } from './components/create/publisher-create.component';
 // import { EditarComponent } from './editar/editar.component';
 // import { ExcluirComponent } from './excluir/excluir.component';
@@ -26,7 +27,7 @@ import { FornececedorGuard } from './services/publisher.guard';
   declarations: [
     PublisherAppComponent,
     PublisherCreateComponent,
-    // PublisherListComponent,
+    PublisherListComponent,
     // EditarComponent,
     // ExcluirComponent,
     // DetalhesComponent,
@@ -40,7 +41,8 @@ import { FornececedorGuard } from './services/publisher.guard';
     MaterialModule,
     TextMaskModule,
     NgxSpinnerModule,
-    A11yModule
+    A11yModule,
+    SweetAlert2Module.forRoot()
   ],
   providers: [
     PublisherService,

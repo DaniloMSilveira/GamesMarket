@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { utilsBr } from 'js-brasil';
+import moment from 'moment';
 
 import { CEPJValidator, CNPJValidator, CPFValidator } from 'src/app/shared/validators/brazil';
 import { StringUtils } from 'src/app/shared/utils/string-utils';
@@ -14,6 +15,8 @@ import { CepDetails, EstadosList } from '../../models/address';
 
 
 import { GenericValidatorComponent } from 'src/app/shared/components/generic-validator.component';
+import { Publisher } from '../../models/publisher';
+import { onlyNumbers } from 'src/app/shared/utils';
 
 @Component({
   selector: 'app-publisher-create',
@@ -48,6 +51,7 @@ export class PublisherCreateComponent extends GenericValidatorComponent implemen
   textDocument: string = 'CPF';
   documentMask = { mask: utilsBr.MASKS.cpf.textMask }
 
+  publisher: Publisher = new Publisher();
   mudancasNaoSalvas: boolean = false;
 
   ngOnInit() {
@@ -108,10 +112,6 @@ export class PublisherCreateComponent extends GenericValidatorComponent implemen
     return this.form.get('document');
   }
 
-  createPublisher() {
-    console.log('values:', this.form.value)
-  }
-
   searchCep() {
     let cep = this.form.value.address.cep;
     cep = StringUtils.onlyNumbers(cep);
@@ -149,5 +149,35 @@ export class PublisherCreateComponent extends GenericValidatorComponent implemen
         estado: cepDetails.uf
       }
     });
+  }
+
+  createPublisher() {
+    const publisherDto: Publisher = Object.assign({}, this.publisher, this.form.value);
+    publisherDto.document = onlyNumbers(publisherDto.document);
+    publisherDto.address.cep = onlyNumbers(publisherDto.address.cep);
+    publisherDto.foundationDate = moment(publisherDto.foundationDate).format('DD/MM/yyyy')
+
+    this.publisherService
+      .createPublisher(publisherDto)
+      .subscribe({
+        next: () => {
+          this.toastr.success(
+            `You've created publisher.`,
+            `Success`
+          );
+
+          this.router.navigate(['/publishers/list']);
+        },
+        error: (e) => {
+          if (e.error && e.error.errors) {
+            this.errors = e.error.errors;
+          } else {
+            this.toastr.error(
+              'Internal error. Please try again later', 
+              'Error on authentication',
+            );
+          }
+        }
+      })
   }
 }

@@ -3,11 +3,12 @@ import { Game } from 'src/app/modules/games/models/games.model';
 
 export class Publisher {
     id: string;
-    nome: string;
-    documento: string;
-    ativo: boolean;
-    tipoPublisher: number;
+    name: string;
+    email: string;
+    document: string;
+    typePerson: string;
+    foundationDate: string;
     address: Address;
-    produtos: Game[];
+    games: Game[];
 }
 

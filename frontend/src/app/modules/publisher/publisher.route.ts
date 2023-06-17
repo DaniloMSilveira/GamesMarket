@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { PublisherAppComponent } from './publisher.app.component';
-// import { PublisherListComponent } from './components/list/publisher-list.component';
+import { PublisherListComponent } from './components/list/publisher-list.component';
 import { PublisherCreateComponent } from './components/create/publisher-create.component';
 // import { EditarComponent } from './editar/editar.component';
 // import { DetalhesComponent } from './detalhes/detalhes.component';
@@ -14,7 +14,7 @@ const publisherRouterConfig: Routes = [
     {
         path: '', component: PublisherAppComponent,
         children: [
-            // { path: 'list', component: PublisherListComponent },
+            { path: 'list', component: PublisherListComponent },
             {
                 path: 'create', component: PublisherCreateComponent,
                 // canDeactivate: [FornececedorGuard],

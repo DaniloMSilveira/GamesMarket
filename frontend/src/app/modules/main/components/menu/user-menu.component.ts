@@ -7,7 +7,7 @@ import { LocalStorageUtils } from 'src/app/shared/storage/local-storage';
   selector: 'app-user-menu',
   template: `
       <button mat-button [matMenuTriggerFor]="menu">
-        <div class="flex items-center justify-center w-40 bg-white p-0.5 rounded-full">
+        <div class="flex items-center justify-center w-32 h-6 mt-1 bg-white p-0.5 rounded-full">
           <img matButtonIcon class="avatar r-full" [src]="avatar" width="24" alt="avatar" />
           <span class="m-x-8">{{ user }}</span>
         </div>
@@ -35,9 +35,10 @@ import { LocalStorageUtils } from 'src/app/shared/storage/local-storage';
   styles: [
     `
       .avatar {
-        width: 24px;
-        height: 24px;
-        margin-right: 8px;
+        width: 18px;
+        height: 18px;
+        margin-right: 6px;
+        border-radius: 50px;
       }
     `,
   ],

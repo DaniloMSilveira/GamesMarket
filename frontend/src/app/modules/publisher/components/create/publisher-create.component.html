@@ -7,93 +7,100 @@
   <p style="font-size: 20px; color: white">Loading...</p>
 </ngx-spinner>
 
-<mat-card class="w-96 md:w-156">
-    <mat-card-header class="flex mb-4 justify-center">
-        <mat-card-title>New Publisher</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <form (ngSubmit)="createPublisher()" [formGroup]="form">
-            <div class="flex flex-col" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
-                <mat-form-field appearance="outline">
-                    <mat-label>Name</mat-label>
-                    <input formControlName="name" matInput />
-                    <mat-error>The field is required</mat-error>
-                </mat-form-field>
-                <mat-form-field appearance="outline">
-                    <mat-label>Email</mat-label>
-                    <input formControlName="email" placeholder="Ex. test@example.com" matInput />
-                    <mat-error>The field is required</mat-error>
-                </mat-form-field>
-                <div>
-                    <mat-label>Type Person:</mat-label>
-                    <mat-radio-group formControlName="typePerson">
-                      <mat-radio-button class="mx-4 mb-4" value="PF">Pessoa Física</mat-radio-button>
-                      <mat-radio-button value="PJ">Pessoa Jurídica</mat-radio-button>
-                    </mat-radio-group>
+<div class="flex justify-center">
+    <mat-card class="w-96 md:w-156">
+        <mat-card-header class="flex justify-center">
+            <mat-card-title>Novo Publisher</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form (ngSubmit)="createPublisher()" [formGroup]="form">
+                <div class="flex flex-col" cdkTrapFocus [cdkTrapFocusAutoCapture]="true">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nome</mat-label>
+                        <input formControlName="name" matInput />
+                        <mat-error>The field is required</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input formControlName="email" placeholder="Ex. test@example.com" matInput />
+                        <mat-error>The field is required</mat-error>
+                    </mat-form-field>
+                    <div>
+                        <mat-label>Tipo Pessoa:</mat-label>
+                        <mat-radio-group formControlName="typePerson">
+                          <mat-radio-button class="mx-4 mb-4" value="PF">Pessoa Física</mat-radio-button>
+                          <mat-radio-button value="PJ">Pessoa Jurídica</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="flex flex-col md:flex-row justify-between gap-4">
+                        <mat-form-field class="w-auto md:w-7/12" appearance="outline">
+                            <mat-label>{{ textDocument }}</mat-label>
+                            <input formControlName="document" [textMask]="documentMask" matInput />
+                            <mat-error>The field is required</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-60 w-auto md:w-5/12" appearance="outline"> 
+                            <mat-label>Data de Fundação</mat-label> 
+                            <input matInput [matDatepicker]="picker" formControlName="foundationDate"> 
+                            <mat-datepicker-toggle #datepickerToggle matSuffix [for]="picker"></mat-datepicker-toggle> 
+                            <mat-datepicker #picker></mat-datepicker> 
+                        </mat-form-field>
+                    </div>
+                    <h2 class="my-4 text-center">Endereço</h2>
+                    <div formGroupName="address">
+                        <div class="flex flex-col md:flex-row justify-between gap-4">
+                            <mat-form-field class="w-full" appearance="outline">
+                                <mat-label>CEP</mat-label>
+                                <input formControlName="cep" [textMask]="cepMask" (blur)="searchCep()" matInput />
+                                <mat-error>The field is required</mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="w-full" appearance="outline">
+                                <mat-label>Numero</mat-label>
+                                <input formControlName="numero" matInput />
+                                <mat-error>The field is required</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>Logradouro</mat-label>
+                            <input formControlName="logradouro" matInput />
+                            <mat-error>The field is required</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>Bairro</mat-label>
+                            <input formControlName="bairro" matInput />
+                            <mat-error>The field is required</mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>Complemento</mat-label>
+                            <input formControlName="complemento" matInput />
+                            <mat-error>The field is required</mat-error>
+                        </mat-form-field>
+                        <div class="flex flex-col md:flex-row justify-between gap-4">
+                            <mat-form-field class="w-full" appearance="outline">
+                                <mat-label>Cidade</mat-label>
+                                <input formControlName="cidade" matInput />
+                                <mat-error>The field is required</mat-error>
+                            </mat-form-field>
+                            <mat-form-field class="w-full" appearance="outline">
+                                <mat-label>Estado</mat-label>
+                                <mat-select formControlName="estado">
+                                    <mat-option *ngFor="let item of estados" [value]="item.value">{{ item.description }}</mat-option>
+                                </mat-select>
+                                <mat-error>The field is required</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div>
+                        <button 
+                            class="w-full" 
+                            mat-flat-button 
+                            color="primary" 
+                            [disabled]="form.invalid"
+                        >
+                            Criar Publisher
+                        </button>
+                    </div>
                 </div>
-                <mat-form-field appearance="outline">
-                    <mat-label>{{ textDocument }}</mat-label>
-                    <input formControlName="document" [textMask]="documentMask" matInput />
-                    <mat-error>The field is required</mat-error>
-                </mat-form-field>
-                <mat-form-field class="w-60" appearance="outline"> 
-                    <mat-label>Foundation Date</mat-label> 
-                    <input matInput [matDatepicker]="picker" formControlName="foundationDate"> 
-                    <mat-datepicker-toggle #datepickerToggle matSuffix [for]="picker"></mat-datepicker-toggle> 
-                    <mat-datepicker #picker></mat-datepicker> 
-                </mat-form-field>
-                <h2 class="mb-4 text-center">Address</h2>
-                <div formGroupName="address">
-                    <mat-form-field class="w-full" appearance="outline">
-                        <mat-label>CEP</mat-label>
-                        <input formControlName="cep" [textMask]="cepMask" (blur)="searchCep()" matInput />
-                        <mat-error>The field is required</mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="w-full" appearance="outline">
-                        <mat-label>Logradouro</mat-label>
-                        <input formControlName="logradouro" matInput />
-                        <mat-error>The field is required</mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="w-full" appearance="outline">
-                        <mat-label>Numero</mat-label>
-                        <input formControlName="numero" matInput />
-                        <mat-error>The field is required</mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="w-full" appearance="outline">
-                        <mat-label>Complemento</mat-label>
-                        <input formControlName="complemento" matInput />
-                        <mat-error>The field is required</mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="w-full" appearance="outline">
-                        <mat-label>Bairro</mat-label>
-                        <input formControlName="bairro" matInput />
-                        <mat-error>The field is required</mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="w-full" appearance="outline">
-                        <mat-label>Cidade</mat-label>
-                        <input formControlName="cidade" matInput />
-                        <mat-error>The field is required</mat-error>
-                    </mat-form-field>
-                    <mat-form-field class="w-full" appearance="outline">
-                        <mat-label>Estado</mat-label>
-                        <mat-select formControlName="estado">
-                            <mat-option *ngFor="let item of estados" [value]="item.value">{{ item.description }}</mat-option>
-                        </mat-select>
-                        <mat-error>The field is required</mat-error>
-                    </mat-form-field>
-                </div>
-                <div>
-                    <button 
-                        class="w-full" 
-                        mat-flat-button 
-                        color="primary" 
-                        [disabled]="form.invalid"
-                    >
-                        Create Publisher
-                    </button>
-                </div>
-            </div>
-        </form>
-    </mat-card-content>
-</mat-card>
-
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

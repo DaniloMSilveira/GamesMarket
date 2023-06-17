@@ -30,6 +30,13 @@ namespace GamesMarket.Api.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
+        // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<ActionResult> GetUsers()
+        {
+            return Ok();
+        }
+
         [HttpGet("{id:guid}")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<ActionResult<UserReadDto>> GetUserById(Guid id)
