@@ -19,7 +19,12 @@ const routerConfig: Routes = [
                 path: 'publishers',
                 loadChildren: () => import('../publisher/publisher.module')
                     .then(m => m.PublisherModule)
-            }
+            },
+            // {
+            //     path: 'market',
+            //     loadChildren: () => import('../market/market.module')
+            //         .then(m => m.MarketModule)
+            // }
         ]
     },
 ];

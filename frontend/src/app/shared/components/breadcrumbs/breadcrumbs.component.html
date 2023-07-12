@@ -1,0 +1,7 @@
+<div class="mb-4 flex flex-row">
+    <div class="ml-2"
+        *ngFor="let breadcrumb of breadcrumbs">
+        <span *ngIf="!breadcrumb.route">{{ breadcrumb.title }}</span>
+        <a [routerLink]="breadcrumb.route" *ngIf="breadcrumb.route">{{ breadcrumb.title }}</a>
+    </div>
+</div>

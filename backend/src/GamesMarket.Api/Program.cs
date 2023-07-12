@@ -42,6 +42,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddIdentityConfiguration(builder.Configuration);
 
+builder.Services.AddRollbarConfiguration(builder.Configuration);
+
 // Injections before building the app
 builder.Services.ResolveDependencies();
 

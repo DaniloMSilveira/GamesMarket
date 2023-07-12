@@ -1,0 +1,51 @@
+.table-options {
+  width: 100%;
+  display: inline-flex;
+  justify-content: space-evenly;
+  padding: 10px;
+}
+
+.table-options h4 {
+  align-self: center;
+}
+
+.table-options .mat-form-field {
+  width: 30%;
+  font-size: 14px;
+}
+
+.table-options button {
+  align-self: center;
+}
+
+.table-center {
+  width: 75%;
+  position: relative;
+}
+
+.table-content {
+  position: relative;
+  min-height: 200px;
+  max-height: 400px;
+  overflow: auto;
+}
+  
+.mat-column-id {
+  width: 320px;
+}
+
+.mat-column-username {
+  width: 150px;
+}
+
+.mat-column-email {
+  width: 250px;
+}
+
+.mat-column-profile {
+  width: 200px;
+}
+
+.mat-column-actions {
+  width: 80px;
+}

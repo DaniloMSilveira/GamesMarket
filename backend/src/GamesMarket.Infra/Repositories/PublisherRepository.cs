@@ -11,6 +11,13 @@ namespace GamesMarket.Infra.Repositories
         {
         }
 
+        public async Task<bool> AddPublishers(IList<Publisher> publishers)
+        {
+            Db.Publishers.AddRange(publishers);
+            await SaveChanges();
+            return true;
+        }
+
         public async Task<Publisher> GetPublisherAddress(Guid id)
         {
             return await Db.Publishers.AsNoTracking()

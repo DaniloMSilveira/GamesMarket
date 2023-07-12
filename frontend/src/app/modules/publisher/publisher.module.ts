@@ -11,6 +11,8 @@ import { PublisherRoutingModule } from './publisher.route';
 import { PublisherAppComponent } from './publisher.app.component';
 import { PublisherService } from './services/publisher.service';
 
+import { BreadCrumbsComponent } from 'src/app/shared/components/breadcrumbs/breadcrumbs.component';
+
 import { PublisherListComponent } from './components/list/publisher-list.component';
 import { PublisherCreateComponent } from './components/create/publisher-create.component';
 // import { EditarComponent } from './editar/editar.component';
@@ -28,6 +30,7 @@ import { FornececedorGuard } from './services/publisher.guard';
     PublisherAppComponent,
     PublisherCreateComponent,
     PublisherListComponent,
+    BreadCrumbsComponent,
     // EditarComponent,
     // ExcluirComponent,
     // DetalhesComponent,

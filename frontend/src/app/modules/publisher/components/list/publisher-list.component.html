@@ -1,71 +1,74 @@
 <div class="justify-center">
-    <div class="w-full flex-row justify-evenly">
-        <h1>Lista de Publishers</h1>
+  <div>
+    <!-- <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs> -->
+  </div>
+  <div class="w-full flex-row justify-evenly">
+      <h1>Lista de Publishers</h1>
 
-        <button
-            class="w-36" 
-            mat-flat-button 
-            color="primary"
-            [routerLink]="['/publishers/create']"
-        >Criar Publisher</button>
-    </div>
-    <div class="mt-4">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-            <ng-container matColumnDef="name">
-              <th class="w-60" mat-header-cell *matHeaderCellDef>Nome</th>
-              <td mat-cell *matCellDef="let row"> {{ row.name }} </td>
-            </ng-container>
-          
-            <ng-container matColumnDef="typePerson">
-              <th class="w-24" mat-header-cell *matHeaderCellDef>Tipo Pessoa</th>
-              <td mat-cell *matCellDef="let row"> {{ row.typePerson }} </td>
-            </ng-container>
-          
-            <ng-container matColumnDef="document">
-              <th class="w-36" mat-header-cell *matHeaderCellDef>CPF/CNPJ</th>
-              <td mat-cell *matCellDef="let row"> {{ row.document }} </td>
-            </ng-container>
-          
-            <ng-container matColumnDef="email">
-              <th class="w-48" mat-header-cell *matHeaderCellDef>Email</th>
-              <td mat-cell *matCellDef="let row"> {{ row.email }} </td>
-            </ng-container>
+      <button
+          class="w-36" 
+          mat-flat-button 
+          color="primary"
+          [routerLink]="['/publishers/create']"
+      >Criar Publisher</button>
+  </div>
+  <div class="mt-4">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="name">
+            <th class="w-60" mat-header-cell *matHeaderCellDef>Nome</th>
+            <td mat-cell *matCellDef="let row"> {{ row.name }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="typePerson">
+            <th class="w-24" mat-header-cell *matHeaderCellDef>Tipo Pessoa</th>
+            <td mat-cell *matCellDef="let row"> {{ row.typePerson }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="document">
+            <th class="w-36" mat-header-cell *matHeaderCellDef>CPF/CNPJ</th>
+            <td mat-cell *matCellDef="let row"> {{ row.document }} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="email">
+            <th class="w-48" mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let row"> {{ row.email }} </td>
+          </ng-container>
 
-            <ng-container matColumnDef="actions">
-                <th class="w-36" mat-header-cell *matHeaderCellDef>Actions</th>
-                <td mat-cell *matCellDef="let row">
-                  <div class="flex-row">
-                    <button mat-icon-button [routerLink]="['/publishers/details']">
-                        <mat-icon>search</mat-icon>
-                      </button>
-                    <button mat-icon-button color="primary" [routerLink]="['/publishers/edit']">
-                      <mat-icon>edit</mat-icon>
+          <ng-container matColumnDef="actions">
+              <th class="w-36" mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let row">
+                <div class="flex-row">
+                  <button mat-icon-button [routerLink]="['/publishers/details']">
+                      <mat-icon>search</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn" 
-                      [swal]="deleteSwal"
-                      (confirm)="deletePublisher(row.id)"
-                    >
-                      <mat-icon>delete</mat-icon>
-                    </button>
-      
-                    <swal #deleteSwal 
-                      title="Delete {{row.name}}"
-                      text="Are you sure that you want to delete this publisher?"
-                      icon="warning"
-                      [showCancelButton]="true"
-                      confirmButtonColor="#3085d6"
-                      cancelButtonColor="#d33"
-                      confirmButtonText="Yes"
-                      cancelButtonText="No"
-                    ></swal>
-      
-                  </div>
-                </td>
-            </ng-container>
-          
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-    </div>
+                  <button mat-icon-button color="primary" [routerLink]="['/publishers/edit']">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" 
+                    [swal]="deleteSwal"
+                    (confirm)="deletePublisher(row.id)"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+    
+                  <swal #deleteSwal 
+                    title="Delete {{row.name}}"
+                    text="Are you sure that you want to delete this publisher?"
+                    icon="warning"
+                    [showCancelButton]="true"
+                    confirmButtonColor="#3085d6"
+                    cancelButtonColor="#d33"
+                    confirmButtonText="Yes"
+                    cancelButtonText="No"
+                  ></swal>
+    
+                </div>
+              </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+  </div>
 </div>
 

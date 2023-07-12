@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PublisherService } from '../../services/publisher.service';
 import { Publisher } from '../../models/publisher';
 import { ToastrService } from 'ngx-toastr';
+import { BreadCrumbModel } from 'src/app/shared/components/breadcrumbs/breadcrumb.model';
 
 @Component({
   selector: 'app-publisher-list',
@@ -14,6 +15,11 @@ export class PublisherListComponent implements OnInit {
 
   public publishers: Publisher[];
   errorMessage: string;
+
+  breadcrumbs: BreadCrumbModel[] = [
+    { title: 'Home', route: '/' },
+    { title: 'Publishers', route: '/publishers/list' }
+  ]
 
   constructor(
     private publisherService: PublisherService,

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ExcelDataReader;
 using GamesMarket.Api.Dtos;
 using GamesMarket.Api.Extensions;
 using GamesMarket.Domain.Entities;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GamesMarket.Api.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [Route("v1/publishers")]
     public class PublishersController : MainController
     {
@@ -56,6 +57,42 @@ namespace GamesMarket.Api.Controllers
             await _service.CreatePublisher(_mapper.Map<Publisher>(dto));
 
             return CustomResponse(dto);
+        }
+
+        [HttpPost("importacao-xlsx")]
+        public async Task<ActionResult> ImportacaoPublishers([FromForm] IFormFile file)
+        {
+            if (file is null)
+                return BadRequest("Não foi importado nenhum arquivo!");
+
+            // For .net core, the next line requires the NuGet package, 
+            // System.Text.Encoding.CodePages
+            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+            using(var reader = ExcelReaderFactory.CreateReader(file.OpenReadStream()))
+            {
+                //skip headers
+                reader.Read();
+
+                var publishers = new List<Publisher>();
+
+                while(reader.Read()) 
+                {
+                    var publisher = new Publisher(
+                        name: reader.GetValue(0).ToString(),
+                        email: reader.GetValue(1).ToString(),
+                        document: reader.GetValue(2).ToString(),
+                        typePerson: reader.GetValue(3).ToString(),
+                        foundationDate: DateOnly.FromDateTime(DateTime.Parse(reader.GetValue(4).ToString()))
+                    );
+                    
+                    publishers.Add(publisher);   
+                }
+
+                await _publisherRepository.AddPublishers(publishers);
+            };
+
+            return Ok();
         }
 
         //[ClaimsAuthorize("Fornecedor", "Atualizar")]

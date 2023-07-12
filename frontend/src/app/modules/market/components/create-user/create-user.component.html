@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>New User</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Name</mat-label>
+      <input formControlName="name" matInput>
+      <mat-error>The field Name is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input formControlName="email" matInput>
+      <mat-error>{{getEmailErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+    <div class="container-credentials">
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input formControlName="userName" matInput>
+        <mat-error>The field Username is required</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input type="password" formControlName="password" matInput>
+        <mat-error>The field Password is required</mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" [disabled]="form.invalid" (click)="submit(form.value)">Submit</button>
+  <button mat-flat-button color="warn" (click)="cancel()">Close</button>
+</mat-dialog-actions>
